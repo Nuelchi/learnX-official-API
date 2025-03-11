@@ -31,21 +31,13 @@ app.use(
     allowedHeaders: ["Content-Type", "Authorization"], 
   })
 );
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET || "your_secret",
+app.use(cors());
+app.use(session ({
+    secret: 'my-session-secret',
     resave: false,
-    saveUninitialized: false,
-    store: MongoStore.create({
-      mongoUrl: process.env.MONGO_URL, 
-      collectionName: "sessions",
-    }),
-    cookie: {
-      secure: process.env.NODE_ENV === "production", // Set to true in production (HTTPS)
-      maxAge: 1000 * 60 * 60 * 24, 
-    },
-  })
-);
+    saveUninitialized: true,
+}));
+//initialize passport and session
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -75,7 +67,7 @@ app.get('/auth/google/callback',
 //profile route
 app.get('/profile', (req:Request, res:Response) => {
     const user = req.user as User;
-    res.send(`welcome ${user.name} you have successfully signed into learnX !!`)
+    res.send(`welcome ${user.name} you have successfully signed into learnX, Click the link to continue to continue browsing learnX 👉!!` )
 });
 //logout route
 app.get("/logout", (req: Request, res: Response) => {
