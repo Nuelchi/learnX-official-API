@@ -75,7 +75,7 @@ app.get('/auth/google/callback',
 //profile route
 app.get('/profile', (req:Request, res:Response) => {
     const user = req.user as User;
-    res.send(`welcome ${user.name} you have successfully signed into E-commerce app, you may continue your shopping now!!`)
+    res.send(`welcome ${user.name} you have successfully signed into learnX !!`)
 });
 //logout route
 app.get("/logout", (req: Request, res: Response) => {
