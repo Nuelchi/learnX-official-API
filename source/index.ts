@@ -25,10 +25,13 @@ app.use(express.urlencoded({extended:true}));
 app.use(express.json());
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL || "https://learnx-official-api.onrender.com",
-    credentials: true, 
-    methods: ["GET", "POST", "PUT", "DELETE"], 
-    allowedHeaders: ["Content-Type", "Authorization"], 
+    origin: [
+      "http://localhost:9000", // Local frontend
+      "https://learnx-official-api.onrender.com" // Deployed frontend
+    ],
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 app.use(
