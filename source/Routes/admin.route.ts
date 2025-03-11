@@ -7,7 +7,7 @@ const router = Router();
 router.post("/signUp", createAdmin );
 router.post("/signIn", loginAdmin);
 router.get("/allUser", getAllUsers )
-router.get("/resetPassword", resetPassword )
+router.post("/resetPassword", resetPassword )
 router.get("/allUser/:id", getUserById )
 router.put("/update/:id", updateUser )
 
