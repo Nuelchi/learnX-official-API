@@ -25,10 +25,7 @@ app.use(express.urlencoded({extended:true}));
 app.use(express.json());
 app.use(
   cors({
-    origin: [
-      "http://localhost:9000",
-      "https://learnx-official-api.onrender.com",
-    ],
+    origin: process.env.FRONTEND_URL || "https://learnx-official-api.onrender.com",
     credentials: true, 
     methods: ["GET", "POST", "PUT", "DELETE"], 
     allowedHeaders: ["Content-Type", "Authorization"], 
