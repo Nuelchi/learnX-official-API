@@ -4,7 +4,11 @@ import bcrypt from 'bcrypt';
 import validator from 'validator';
 
 const adminSchema = new Schema<Iadmin>({
-    name: {
+    firstname: {
+        type: String,
+        required: true
+    },
+    lastname: {
         type: String,
         required: true
     },

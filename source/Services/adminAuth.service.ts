@@ -43,4 +43,29 @@ export class adminService {
     async getUserById(id: string): Promise<Iuser | null> {
         return await myuser.findById(id);
     }
+
+
+    async resetPassword(data: { email?: string; password?: string }) {
+        const { email, password } = data;
+
+        // Check if email or new password is missing
+        if (!email || !password) {
+            throw new Error("Email and new password are required");
+        }
+
+        // Check if user exists in the database
+        const user = await admin.findOne({ email }).select('-confirmPassword');
+        if (!user) {
+            throw new Error("admin with this email not found");
+        }
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        // Update the user's password in the database
+        user.password = hashedPassword;
+        await user.save();
+
+        return { message: "Password reset successfully" };
+    }
+
 };

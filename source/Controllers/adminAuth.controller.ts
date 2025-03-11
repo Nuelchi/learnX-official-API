@@ -8,8 +8,8 @@ export class adminController {
     //sign up
     async createAdmin(req: Request, res: Response): Promise<void> {
         const userData = req.body;
-        const { name, email, password } = userData;
-        if (!name || !email || !password) throw new Error("all field required");
+        const { firstname, lastname, email, password } = userData;
+        if (!firstname || !lastname || !email || !password) throw new Error("all filed required");
 
         try {
             const newUser = await userService.signUp(userData);
@@ -88,6 +88,16 @@ export class adminController {
             res.status(200).json(user);
         } catch (error: any) {
             res.status(500).json({ message: error.message });
+        }
+    }
+
+    //reset password
+    async resetPassword(req: Request, res: Response) {
+        try {
+            const response = await userService.resetPassword(req.body);
+            res.status(200).json(response);
+        } catch (error: any) {
+            res.status(400).json({ error: error.message });
         }
     }
 };

@@ -4,7 +4,11 @@ import bcrypt from 'bcrypt';
 import validator from 'validator';
 
 const userSchema = new Schema<Iuser & Document>({
-    name: {
+    firstname: {
+        type: String,
+        required: true
+    },
+    lastname: {
         type: String,
         required: true
     },
