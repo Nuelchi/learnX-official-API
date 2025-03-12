@@ -17,7 +17,7 @@ class CourseEnrollService {
             try {
                 const newEnrollment = new courseEnroll_model_1.CourseEnrollModel(courseData);
                 yield newEnrollment.save();
-                return { success: true, message: "Enrollment successful", enrollment: newEnrollment };
+                return { newEnrollment };
             }
             catch (error) {
                 throw new Error(`Enrollment failed: ${error.message}`);

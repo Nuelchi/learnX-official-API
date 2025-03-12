@@ -20,14 +20,15 @@ import paymentRoute from "./Routes/paystack.route";
 //MIDDLEWARES
 app.use(express.urlencoded({extended:true}));
 app.use(express.json());
-app.use(
-  cors({
-    origin: process.env.FRONTEND_URL || "https://learnx-official-api.onrender.com",
-    credentials: true, 
-    methods: ["GET", "POST", "PUT", "DELETE"], 
-    allowedHeaders: ["Content-Type", "Authorization"], 
-  })
-);
+app.use(cors());
+// app.use(
+//   cors({
+//     origin: process.env.FRONTEND_URL || "https://learnx-official-api.onrender.com",
+//     credentials: true, 
+//     methods: ["GET", "POST", "PUT", "DELETE"], 
+//     allowedHeaders: ["Content-Type", "Authorization"], 
+//   })
+// );
 
 
 
