@@ -13,6 +13,7 @@ import mongoose from "mongoose";
 import userRoute from "./Routes/user.route"
 import adminRoute from "./Routes/admin.route"
 import courseRoute from "./Routes/course.route"
+import courseEnrollRoute from "./Routes/courseEnroll.route"
 import paymentRoute from "./Routes/paystack.route";
 
 
@@ -34,6 +35,7 @@ app.use(
 app.use("/api/v1/user", userRoute)
 app.use("/api/v1/admin", adminRoute)
 app.use("/api/v1/course", courseRoute)
+app.use("/api/v1/Enroll", courseEnrollRoute)
 app.use("/api/v1/payment", paymentRoute)
 
 

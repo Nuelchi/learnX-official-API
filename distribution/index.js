@@ -14,6 +14,7 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const user_route_1 = __importDefault(require("./Routes/user.route"));
 const admin_route_1 = __importDefault(require("./Routes/admin.route"));
 const course_route_1 = __importDefault(require("./Routes/course.route"));
+const courseEnroll_route_1 = __importDefault(require("./Routes/courseEnroll.route"));
 const paystack_route_1 = __importDefault(require("./Routes/paystack.route"));
 //MIDDLEWARES
 app.use(express_1.default.urlencoded({ extended: true }));
@@ -28,6 +29,7 @@ app.use((0, cors_1.default)({
 app.use("/api/v1/user", user_route_1.default);
 app.use("/api/v1/admin", admin_route_1.default);
 app.use("/api/v1/course", course_route_1.default);
+app.use("/api/v1/Enroll", courseEnroll_route_1.default);
 app.use("/api/v1/payment", paystack_route_1.default);
 //DATABASE CONNECTION
 mongoose_1.default.connect(process.env.MONGO_URL)
