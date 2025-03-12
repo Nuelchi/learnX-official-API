@@ -25,4 +25,4 @@ const courseEnrollSchema = new Schema<IcourseEnroll>({
     },
 });
 
-export const CourseEnrollModel = model<IcourseEnroll>("CourseEnroll", courseEnrollSchema);
+export const CourseEnrollModel = model<IcourseEnroll>("Enrollment", courseEnrollSchema);

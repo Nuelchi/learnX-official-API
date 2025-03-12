@@ -28,4 +28,4 @@ const courseEnrollSchema = new mongoose_1.Schema({
         lowercase: true
     },
 });
-exports.CourseEnrollModel = (0, mongoose_1.model)("CourseEnroll", courseEnrollSchema);
+exports.CourseEnrollModel = (0, mongoose_1.model)("Enrollment", courseEnrollSchema);
