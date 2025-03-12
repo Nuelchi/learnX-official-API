@@ -14,9 +14,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CourseController = void 0;
 const course_service_1 = __importDefault(require("../Services/course.service"));
-const auth_middleware_1 = require("../Authorization/auth.middleware");
-//Auth instance
-const { authUser, payAuth } = new auth_middleware_1.Authorization;
 class CourseController {
     // Add a new course
     addCourse(req, res) {

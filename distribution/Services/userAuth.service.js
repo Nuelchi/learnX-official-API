@@ -47,6 +47,25 @@ class UserService {
             return token;
         });
     }
+    resetPassword(data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { email, password } = data;
+            // Check if email or new password is missing
+            if (!email || !password) {
+                throw new Error("Email and new password are required");
+            }
+            // Check if user exists in the database
+            const user = yield user_model_2.default.findOne({ email }).select('-confirmPassword');
+            if (!user) {
+                throw new Error("User with this email not found");
+            }
+            const hashedPassword = yield bcrypt_1.default.hash(password, 10);
+            // Update the user's password in the database
+            user.password = hashedPassword;
+            yield user.save();
+            return { message: "Password reset successfully" };
+        });
+    }
 }
 exports.UserService = UserService;
 ;

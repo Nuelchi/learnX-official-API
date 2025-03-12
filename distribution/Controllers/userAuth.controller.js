@@ -13,11 +13,12 @@ exports.UserController = void 0;
 const userAuth_service_1 = require("../Services/userAuth.service");
 const userService = new userAuth_service_1.UserService();
 class UserController {
+    //signup
     signUp(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const userData = req.body;
-            const { name, email, password, phone } = userData;
-            if (!name || !email || !password || !phone)
+            const { firstname, lastname, email, password, phone } = userData;
+            if (!firstname || !lastname || !email || !password || !phone)
                 throw new Error("all filed required");
             try {
                 const newUser = yield userService.signUp(userData);
@@ -30,14 +31,27 @@ class UserController {
         });
     }
     ;
+    //sign in
     signIn(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const token = yield userService.signIn(req.body);
-                res.status(200).json({ token });
+                res.status(200).json({ message: "you have signed in succesfully", token });
             }
             catch (error) {
                 res.status(401).json({ error: error.message });
+            }
+        });
+    }
+    //reset password
+    resetPassword(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const response = yield userService.resetPassword(req.body);
+                res.status(200).json(response);
+            }
+            catch (error) {
+                res.status(400).json({ error: error.message });
             }
         });
     }

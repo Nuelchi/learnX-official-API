@@ -2,13 +2,13 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const course_controller_1 = require("../Controllers/course.controller");
-const auth_middleware_1 = require("../Authorization/auth.middleware");
-const { authUser, payAuth, restriction } = new auth_middleware_1.Authorization;
-const { addCourse, getCourseById, getCourses, getCourseCategry, updateCourse } = new course_controller_1.CourseController;
+// import { Authorization } from "../Authorization/auth.middleware";
+// const {authUser, payAuth, restriction} = new Authorization
+const { addCourse, getCourseById, getCourses, getCourseCategry, updateCourse } = new course_controller_1.CourseController();
 const router = (0, express_1.Router)();
 router.post("/addcourse", addCourse);
 router.get("/getcourses", getCourses);
 router.get("/coursecategory", getCourseCategry);
-router.get("/:id", authUser, getCourseById);
+router.get("/:id", getCourseById);
 router.put("/update/:id", updateCourse);
 exports.default = router;
