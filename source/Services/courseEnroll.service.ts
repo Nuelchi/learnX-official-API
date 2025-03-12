@@ -7,8 +7,8 @@ export class CourseEnrollService {
             const newEnrollment = new CourseEnrollModel(courseData);
             await newEnrollment.save();
 
-            return { success: true, message: "Enrollment successful", enrollment: newEnrollment };
-        } catch (error: any) {
+            return { newEnrollment };
+        } catch (error:any) {
             throw new Error(`Enrollment failed: ${error.message}`);
         }
     }
