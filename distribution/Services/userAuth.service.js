@@ -55,7 +55,7 @@ class UserService {
                 throw new Error("Email and new password are required");
             }
             // Check if user exists in the database
-            const user = yield user_model_2.default.findOne({ email }).select('-confirmPassword');
+            const user = yield user_model_2.default.findOne({ email }).select('email password');
             if (!user) {
                 throw new Error("User with this email not found");
             }

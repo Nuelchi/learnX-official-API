@@ -54,7 +54,7 @@ export class adminService {
         }
 
         // Check if user exists in the database
-        const user = await admin.findOne({ email }).select('-confirmPassword');
+        const user = await admin.findOne({ email }).select('email password');
         if (!user) {
             throw new Error("admin with this email not found");
         }

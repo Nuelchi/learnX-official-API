@@ -46,7 +46,7 @@ export class UserService {
     }
 
     // Check if user exists in the database
-    const user = await userModel.findOne({ email }).select('-confirmPassword');
+    const user = await userModel.findOne({ email }).select('email password');
     if (!user) {
       throw new Error("User with this email not found");
     }

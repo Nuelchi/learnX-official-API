@@ -70,7 +70,7 @@ class adminService {
                 throw new Error("Email and new password are required");
             }
             // Check if user exists in the database
-            const user = yield admin_model_1.default.findOne({ email }).select('-confirmPassword');
+            const user = yield admin_model_1.default.findOne({ email }).select('email password');
             if (!user) {
                 throw new Error("admin with this email not found");
             }
