@@ -29,7 +29,7 @@ app.use((0, cors_1.default)({
 app.use("/api/v1/user", user_route_1.default);
 app.use("/api/v1/admin", admin_route_1.default);
 app.use("/api/v1/course", course_route_1.default);
-app.use("/api/v1/Enroll", courseEnroll_route_1.default);
+app.use("/api/v1/enroll", courseEnroll_route_1.default);
 app.use("/api/v1/payment", paystack_route_1.default);
 //DATABASE CONNECTION
 mongoose_1.default.connect(process.env.MONGO_URL)
