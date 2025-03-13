@@ -8,8 +8,8 @@ export class UserController {
   //signup
   async signUp(req: Request, res: Response): Promise<void> {
     const userData = req.body;
-    const { firstname, lastname, email, password, phone } = userData;
-    if (!firstname || !lastname || !email || !password || !phone) throw new Error("all filed required");
+    const { firstname, lastname, email, password } = userData;
+    if (!firstname || !lastname || !email || !password) throw new Error("all filed required");
 
     try {
       const newUser = await userService.signUp(userData);

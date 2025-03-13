@@ -33,12 +33,6 @@ const userSchema = new Schema<Iuser & Document>({
             message: 'Password and confirm password do not match',
         },
     },
-    phone: {
-        type: String,
-        required: [true, 'Please enter your phone number'],
-        minlength: 11,
-        unique: [true, 'Please enter a new phone number']
-    },
     
     role: {
         type: String,
