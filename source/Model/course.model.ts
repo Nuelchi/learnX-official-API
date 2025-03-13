@@ -5,7 +5,6 @@ const courseSchema = new Schema<Icourse>({
     title: {
         type: String,
         required: [true, 'Please enter the title of the book'],
-        unique: true,
         trim: true // Removes extra spaces
     },
     image: {
@@ -14,7 +13,7 @@ const courseSchema = new Schema<Icourse>({
     },
     category: {
         type: String,
-        enum:['backend', 'frontend','artificial intelligence','product design', 'data analysis'],
+        enum:['backend', 'frontend','product design', 'data analysis'],
         required: [true, 'please enter the category of the course'],
         lowercase: true
     },
