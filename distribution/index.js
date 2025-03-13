@@ -19,15 +19,12 @@ const paystack_route_1 = __importDefault(require("./Routes/paystack.route"));
 //MIDDLEWARES
 app.use(express_1.default.urlencoded({ extended: true }));
 app.use(express_1.default.json());
-app.use((0, cors_1.default)({ origin: "*" }));
-// app.use(
-//   cors({
-//     origin: process.env.FRONTEND_URL || "https://learnx-official-api.onrender.com",
-//     credentials: true, 
-//     methods: ["GET", "POST", "PUT", "DELETE"], 
-//     allowedHeaders: ["Content-Type", "Authorization"], 
-//   })
-// );
+app.use((0, cors_1.default)({
+    origin: process.env.FRONTEND_URL || "https://learnx-official-api.onrender.com" || "*",
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+}));
 //ROUTES
 app.use("/api/v1/user", user_route_1.default);
 app.use("/api/v1/admin", admin_route_1.default);

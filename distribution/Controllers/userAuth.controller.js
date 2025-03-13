@@ -17,8 +17,8 @@ class UserController {
     signUp(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const userData = req.body;
-            const { firstname, lastname, email, password, phone } = userData;
-            if (!firstname || !lastname || !email || !password || !phone)
+            const { firstname, lastname, email, password } = userData;
+            if (!firstname || !lastname || !email || !password)
                 throw new Error("all filed required");
             try {
                 const newUser = yield userService.signUp(userData);
