@@ -13,7 +13,7 @@ exports.TrackingController = void 0;
 const trackingService_1 = require("../Services/trackingService");
 const trackingService = new trackingService_1.TrackingService();
 class TrackingController {
-    // ✅ Get all tracking details
+    //  Get all tracking details
     getAllTrackingDetails(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -22,23 +22,6 @@ class TrackingController {
             }
             catch (error) {
                 res.status(500).json({ message: error.message });
-            }
-        });
-    }
-    // ✅ Get tracking details for a specific user by email
-    getUserTracking(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const { email } = req.params;
-                if (!email) {
-                    res.status(400).json({ message: "Email is required." });
-                    return;
-                }
-                const userTracking = yield trackingService.getUserTracking(email);
-                res.status(200).json({ message: "User tracking retrieved successfully!", userTracking });
-            }
-            catch (error) {
-                res.status(400).json({ message: error.message });
             }
         });
     }

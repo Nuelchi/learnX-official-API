@@ -48,7 +48,7 @@ app.use("/", paymentRoute)
 app.use("/api/v1/Asessments", TaskRoute)
 app.use("/api/v1/certificate", certRoute)
 app.use("/api/v1/mentor", mentorRoute)
-app.use("/tracking", trackingRoutes)
+app.use("/api/v1/tracking", trackingRoutes)
 
 
 
