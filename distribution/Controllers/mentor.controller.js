@@ -34,7 +34,7 @@ class mentorController {
                     return;
                 }
                 // Send the products in the response if they exist
-                res.status(200).json({ message: "users fetched successfully", mentors });
+                res.status(200).json({ message: "mentors fetched successfully", mentors });
             }
             catch (error) {
                 res.status(500).json({ message: error.message });

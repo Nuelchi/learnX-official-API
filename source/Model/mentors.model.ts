@@ -14,6 +14,13 @@ const mentorSchema = new Schema<Imentor>({
         type: String,
         required: [true, 'please enter the email']
     },
+    mentorTrack: {
+        type: String,
+        enum:['backend', 'frontend','product design', 'data analysis'],
+        required: [true, 'please enter the track the mentor is incharge of'],
+        lowercase: true,
+    },
+
     phone: {
         type: String,
         required: [true, 'please enter the phone number']
