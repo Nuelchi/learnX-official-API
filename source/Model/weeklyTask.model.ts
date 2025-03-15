@@ -5,7 +5,6 @@ const weeklTaskSchema = new Schema<Itask>({
     email: {
         type: String,
         required: true,
-        unique: true,
     },
     taskWeek: {
         type: Number,
