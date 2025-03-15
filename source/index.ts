@@ -22,6 +22,7 @@ import paymentRoute from "./Routes/paystack.route";
 import TaskRoute from "./Routes/weeklyTask.route"
 import certRoute from "./Routes/certificate.route"
 import mentorRoute from "./Routes/mentor.route"
+import trackingRoutes from "./Routes/trackingRoutes"
 
 
 //MIDDLEWARES
@@ -47,6 +48,7 @@ app.use("/", paymentRoute)
 app.use("/api/v1/Asessments", TaskRoute)
 app.use("/api/v1/certificate", certRoute)
 app.use("/api/v1/mentor", mentorRoute)
+app.use("/tracking", trackingRoutes)
 
 
 

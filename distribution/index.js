@@ -22,6 +22,7 @@ const paystack_route_1 = __importDefault(require("./Routes/paystack.route"));
 const weeklyTask_route_1 = __importDefault(require("./Routes/weeklyTask.route"));
 const certificate_route_1 = __importDefault(require("./Routes/certificate.route"));
 const mentor_route_1 = __importDefault(require("./Routes/mentor.route"));
+const trackingRoutes_1 = __importDefault(require("./Routes/trackingRoutes"));
 //MIDDLEWARES
 app.use(express_1.default.urlencoded({ extended: true }));
 app.use(express_1.default.json());
@@ -41,6 +42,7 @@ app.use("/", paystack_route_1.default);
 app.use("/api/v1/Asessments", weeklyTask_route_1.default);
 app.use("/api/v1/certificate", certificate_route_1.default);
 app.use("/api/v1/mentor", mentor_route_1.default);
+app.use("/tracking", trackingRoutes_1.default);
 //DATABASE CONNECTION
 mongoose_1.default.connect(process.env.MONGO_URL)
     .then(() => console.log("mongoDb connected"))
