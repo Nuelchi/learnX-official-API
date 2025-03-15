@@ -25,16 +25,16 @@ class WeeklyTaskController {
             }
         });
     }
-    // Get submitted tasks for a user
+    // Get all submitted tasks for a user
     getUserTasks(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const { email } = req.params;
+                const { email } = req.params; // Assume email is passed as a route parameter
                 const tasks = yield WeeklyTaskService.getSubmittedTasks(email);
                 res.status(200).json({ message: "Tasks retrieved successfully!", tasks });
             }
             catch (error) {
-                res.status(404).json({ message: error.message });
+                res.status(400).json({ message: error.message });
             }
         });
     }

@@ -4,7 +4,6 @@ import { Itask } from "../Interface/weeklyTask.interface";
 const weeklTaskSchema = new Schema<Itask>({
     email: {
         type: String,
-        required: true,
     },
     taskWeek: {
         type: Number,
