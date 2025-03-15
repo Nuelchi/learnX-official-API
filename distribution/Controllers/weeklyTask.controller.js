@@ -13,17 +13,16 @@ exports.WeeklyTaskController = void 0;
 const weeklyTask_service_1 = require("../Services/weeklyTask.service");
 const weeklyTaskService = new weeklyTask_service_1.WeeklyTaskService();
 class WeeklyTaskController {
-    // ✅ Submit a new task (Uses `(req as any).user.id`)
+    //  Submit a new task (Fetches currentWeek from trackingModel)
     submitTask(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const user = req.user; // Extract authenticated user
-                if (!user || !user.id) {
-                    res.status(401).json({ message: "Unauthorized. User not found." });
+                const { email, taskWeek, taskURL } = req.body;
+                if (!email || !taskWeek || !taskURL) {
+                    res.status(400).json({ message: "Missing required fields: email, taskWeek, or taskURL." });
                     return;
                 }
-                const { taskWeek, taskURL } = req.body;
-                const task = yield weeklyTaskService.addTask(user.id, { taskWeek, taskURL });
+                const task = yield weeklyTaskService.addTask({ email, taskWeek, taskURL });
                 res.status(201).json({ message: "Task submitted successfully!", task });
             }
             catch (error) {
@@ -31,7 +30,7 @@ class WeeklyTaskController {
             }
         });
     }
-    // ✅ Get all submitted tasks
+    //  Get all submitted tasks
     getAllTasks(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -40,6 +39,23 @@ class WeeklyTaskController {
             }
             catch (error) {
                 res.status(500).json({ message: error.message });
+            }
+        });
+    }
+    // Get tasks for a specific user (using email)
+    getUserTasks(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { email } = req.query;
+                if (!email) {
+                    res.status(400).json({ message: "Email is required to fetch tasks." });
+                    return;
+                }
+                const tasks = yield weeklyTaskService.getUserTasks(email);
+                res.status(200).json({ message: "User tasks retrieved successfully!", tasks });
+            }
+            catch (error) {
+                res.status(400).json({ message: error.message });
             }
         });
     }

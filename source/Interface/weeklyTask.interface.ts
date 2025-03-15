@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 export interface Itask {
-    studentId: mongoose.Types.ObjectId
+    email: String,
     taskWeek: Number;
     taskURL: string,
 }

@@ -2,9 +2,8 @@ import mongoose, { Schema } from "mongoose";
 import { Itask } from "../Interface/weeklyTask.interface";
 
 const weeklyTaskSchema = new Schema<Itask>({
-    studentId: {
-        type: Schema.Types.ObjectId,
-        ref: "user",
+    email: {
+        type: String,
         required: true,
     },
     taskWeek: {

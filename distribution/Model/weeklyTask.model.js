@@ -35,9 +35,8 @@ var __importStar = (this && this.__importStar) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importStar(require("mongoose"));
 const weeklyTaskSchema = new mongoose_1.Schema({
-    studentId: {
-        type: mongoose_1.Schema.Types.ObjectId,
-        ref: "user",
+    email: {
+        type: String,
         required: true,
     },
     taskWeek: {

@@ -16,21 +16,22 @@ exports.WeeklyTaskService = void 0;
 const weeklyTask_model_1 = __importDefault(require("../Model/weeklyTask.model"));
 const tracking_model_1 = __importDefault(require("../Model/tracking.model"));
 class WeeklyTaskService {
-    //  Submit a new task (Using student ID)
-    addTask(userId, taskData) {
+    // ✅ Submit a new task (Fetching currentWeek from tracking model)
+    addTask(taskData) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { taskWeek, taskURL } = taskData;
-            // Check if the user exists in the tracking model
-            const user = yield tracking_model_1.default.findOne({ userId });
-            if (!user) {
-                throw new Error("User not found. Please submit the task with the same account used during enrollment.");
+            const { email, taskWeek, taskURL } = taskData;
+            // ✅ Fetch user's current week from trackingModel
+            const userTracking = yield tracking_model_1.default.findOne({ email });
+            if (!userTracking) {
+                throw new Error("User not found in tracking records.");
             }
-            // Ensure users are not submitting tasks greater than their current week
-            if (taskWeek > user.currentWeek) {
-                throw new Error(`You cannot submit a task for week ${taskWeek}. Your current progress is week ${user.currentWeek}.`);
+            const currentWeek = userTracking.currentWeek;
+            // ✅ Ensure users are not submitting tasks beyond their current week
+            if (taskWeek > currentWeek) {
+                throw new Error(`You cannot submit a task for week ${taskWeek}. Your current progress is week ${currentWeek}.`);
             }
-            // Create task with authenticated user's ID
-            return yield weeklyTask_model_1.default.create({ studentId: userId, taskWeek, taskURL });
+            //  Create task with email 
+            return yield weeklyTask_model_1.default.create({ email, taskWeek, taskURL });
         });
     }
     // Get all submitted tasks
@@ -39,6 +40,16 @@ class WeeklyTaskService {
             const tasks = yield weeklyTask_model_1.default.find();
             if (!tasks.length) {
                 throw new Error("No tasks have been submitted yet.");
+            }
+            return tasks;
+        });
+    }
+    // Get tasks submitted by a specific user (using email)
+    getUserTasks(email) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const tasks = yield weeklyTask_model_1.default.find({ email });
+            if (!tasks.length) {
+                throw new Error("No tasks found for this user.");
             }
             return tasks;
         });

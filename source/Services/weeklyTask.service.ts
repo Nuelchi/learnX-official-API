@@ -3,24 +3,26 @@ import weeklyTaskModel from "../Model/weeklyTask.model";
 import trackingModel from "../Model/tracking.model";
 
 export class WeeklyTaskService {
-    //  Submit a new task (Using student ID)
-    async addTask(userId: string, taskData: Omit<Itask, "studentId">): Promise<Itask> {
-        const { taskWeek, taskURL } = taskData;
+    // ✅ Submit a new task (Fetching currentWeek from tracking model)
+    async addTask(taskData: Itask): Promise<Itask> {
+        const { email, taskWeek, taskURL } = taskData;
 
-        // Check if the user exists in the tracking model
-        const user = await trackingModel.findOne({ userId });
+        // ✅ Fetch user's current week from trackingModel
+        const userTracking = await trackingModel.findOne({ email });
 
-        if (!user) {
-            throw new Error("User not found. Please submit the task with the same account used during enrollment.");
+        if (!userTracking) {
+            throw new Error("User not found in tracking records.");
         }
 
-        // Ensure users are not submitting tasks greater than their current week
-        if (taskWeek > user.currentWeek) {
-            throw new Error(`You cannot submit a task for week ${taskWeek}. Your current progress is week ${user.currentWeek}.`);
+        const currentWeek = userTracking.currentWeek;
+
+        // ✅ Ensure users are not submitting tasks beyond their current week
+        if (taskWeek > currentWeek) {
+            throw new Error(`You cannot submit a task for week ${taskWeek}. Your current progress is week ${currentWeek}.`);
         }
 
-        // Create task with authenticated user's ID
-        return await weeklyTaskModel.create({ studentId: userId, taskWeek, taskURL });
+        //  Create task with email 
+        return await weeklyTaskModel.create({ email, taskWeek, taskURL });
     }
 
     // Get all submitted tasks
@@ -32,4 +34,14 @@ export class WeeklyTaskService {
         return tasks;
     }
 
+    // Get tasks submitted by a specific user (using email)
+    async getUserTasks(email: string): Promise<Itask[]> {
+        const tasks = await weeklyTaskModel.find({ email });
+
+        if (!tasks.length) {
+            throw new Error("No tasks found for this user.");
+        }
+
+        return tasks;
+    }
 }
