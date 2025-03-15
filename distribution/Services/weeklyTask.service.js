@@ -16,17 +16,17 @@ exports.WeeklyTaskService = void 0;
 const weeklyTask_model_1 = __importDefault(require("../Model/weeklyTask.model"));
 const tracking_model_1 = __importDefault(require("../Model/tracking.model"));
 class WeeklyTaskService {
-    // ✅ Submit a new task (Fetching currentWeek from tracking model)
+    //  Submit a new task (Fetching currentWeek from tracking model)
     addTask(taskData) {
         return __awaiter(this, void 0, void 0, function* () {
             const { email, taskWeek, taskURL } = taskData;
-            // ✅ Fetch user's current week from trackingModel
+            // Fetch user's current week from trackingModel
             const userTracking = yield tracking_model_1.default.findOne({ email });
             if (!userTracking) {
                 throw new Error("User not found in tracking records.");
             }
             const currentWeek = userTracking.currentWeek;
-            // ✅ Ensure users are not submitting tasks beyond their current week
+            //  Ensure users are not submitting tasks beyond their current week
             if (taskWeek > currentWeek) {
                 throw new Error(`You cannot submit a task for week ${taskWeek}. Your current progress is week ${currentWeek}.`);
             }
@@ -40,16 +40,6 @@ class WeeklyTaskService {
             const tasks = yield weeklyTask_model_1.default.find();
             if (!tasks.length) {
                 throw new Error("No tasks have been submitted yet.");
-            }
-            return tasks;
-        });
-    }
-    // Get tasks submitted by a specific user (using email)
-    getUserTasks(email) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const tasks = yield weeklyTask_model_1.default.find({ email });
-            if (!tasks.length) {
-                throw new Error("No tasks found for this user.");
             }
             return tasks;
         });

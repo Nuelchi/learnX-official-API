@@ -42,22 +42,5 @@ class WeeklyTaskController {
             }
         });
     }
-    // Get tasks for a specific user (using email)
-    getUserTasks(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const { email } = req.query;
-                if (!email) {
-                    res.status(400).json({ message: "Email is required to fetch tasks." });
-                    return;
-                }
-                const tasks = yield weeklyTaskService.getUserTasks(email);
-                res.status(200).json({ message: "User tasks retrieved successfully!", tasks });
-            }
-            catch (error) {
-                res.status(400).json({ message: error.message });
-            }
-        });
-    }
 }
 exports.WeeklyTaskController = WeeklyTaskController;

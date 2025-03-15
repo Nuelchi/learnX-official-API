@@ -8,6 +8,4 @@ const weeklyTaskController = new weeklyTask_controller_1.WeeklyTaskController();
 router.post("/submitTask", weeklyTaskController.submitTask);
 //  Route to get all submitted tasks
 router.get("/gradeTask", weeklyTaskController.getAllTasks);
-// Route to get tasks for a specific user (query email)
-router.get("/myTasks", weeklyTaskController.getUserTasks);
 exports.default = router;

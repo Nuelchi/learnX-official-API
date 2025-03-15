@@ -33,19 +33,19 @@ export class WeeklyTaskController {
     }
 
     // Get tasks for a specific user (using email)
-    async getUserTasks(req: Request, res: Response): Promise<void> {
-        try {
-            const { email } = req.query;
+    // async getUserTasks(req: Request, res: Response): Promise<void> {
+    //     try {
+    //         const { email } = req.query;
 
-            if (!email) {
-                res.status(400).json({ message: "Email is required to fetch tasks." });
-                return;
-            }
+    //         if (!email) {
+    //             res.status(400).json({ message: "Email is required to fetch tasks." });
+    //             return;
+    //         }
 
-            const tasks = await weeklyTaskService.getUserTasks(email as string);
-            res.status(200).json({ message: "User tasks retrieved successfully!", tasks });
-        } catch (error: any) {
-            res.status(400).json({ message: error.message });
-        }
-    }
+    //         const tasks = await weeklyTaskService.getUserTasks(email as string);
+    //         res.status(200).json({ message: "User tasks retrieved successfully!", tasks });
+    //     } catch (error: any) {
+    //         res.status(400).json({ message: error.message });
+    //     }
+    // }
 }
