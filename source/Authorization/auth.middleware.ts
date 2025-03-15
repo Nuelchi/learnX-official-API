@@ -48,7 +48,7 @@ export class Authorization {
             }
 
             req.user = user; // Attach user object to request
-            req.user.id =
+            req.user._id 
                 next();
         } catch (error: any) {
             console.error("Token verification failed:", error.message);

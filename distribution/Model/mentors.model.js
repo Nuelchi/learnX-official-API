@@ -34,38 +34,26 @@ var __importStar = (this && this.__importStar) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importStar(require("mongoose"));
-const courseSchema = new mongoose_1.Schema({
-    week: {
-        type: Number,
-        default: 1
-    },
-    title: {
+const mentorSchema = new mongoose_1.Schema({
+    firstname: {
         type: String,
-        required: [true, 'Please enter the title of the book'],
-        trim: true // Removes extra spaces
+        required: [true, 'Please enter the first name of the mentor'],
+    },
+    lastname: {
+        type: String,
+        required: [true, 'Please enter the last name of the mentor'],
+    },
+    email: {
+        type: String,
+        required: [true, 'please enter the email']
+    },
+    phone: {
+        type: String,
+        required: [true, 'please enter the phone number']
     },
     image: {
         type: String,
-        required: [true, 'please enter the author']
-    },
-    category: {
-        type: String,
-        enum: ['backend', 'frontend', 'product design', 'data analysis'],
-        required: [true, 'please enter the category of the course'],
-        lowercase: true
-    },
-    type: {
-        type: String,
-        enum: ['Video', 'Book'],
-        required: [true, 'please enter the type of the course']
-    },
-    weeklyTask: {
-        type: String,
-        required: [true, 'please enter the weekly task']
-    },
-    Link: {
-        type: String,
-        required: [true, 'please enter the course or book upload url']
+        required: [true, 'please enter the image of the mentor']
     },
 });
-exports.default = mongoose_1.default.model("course", courseSchema);
+exports.default = mongoose_1.default.model("Mentor", mentorSchema);

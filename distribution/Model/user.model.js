@@ -18,11 +18,11 @@ const validator_1 = __importDefault(require("validator"));
 const userSchema = new mongoose_1.Schema({
     firstname: {
         type: String,
-        required: true
+        required: [true, 'Please enter the first name of the mentor']
     },
     lastname: {
         type: String,
-        required: true
+        required: [true, 'Please enter the last name of the mentor']
     },
     email: {
         type: String,

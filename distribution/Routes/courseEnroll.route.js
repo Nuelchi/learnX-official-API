@@ -2,6 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const courseEnroll_controller_1 = require("../Controllers/courseEnroll.controller");
+const auth_middleware_1 = require("../Authorization/auth.middleware");
+const { authUser, payAuth, restriction } = new auth_middleware_1.Authorization;
 const { signUp } = new courseEnroll_controller_1.CourseEnrollController;
 const router = (0, express_1.Router)();
 router.post("/signUp", signUp);

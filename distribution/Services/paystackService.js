@@ -19,7 +19,7 @@ dotenv_1.default.config(); // Load environment variables
 const PAYSTACK_SECRET_KEY = process.env.PAYSTACK_SECRET_KEY;
 const FRONTEND_URL = process.env.FRONTEND_URL;
 exports.paystackService = {
-    // Initialize Payment
+    // Initialize Payment (Now gets reference from Paystack)
     initializePayment(email, amount) {
         return __awaiter(this, void 0, void 0, function* () {
             var _a;
@@ -32,7 +32,7 @@ exports.paystackService = {
                 }, {
                     headers: { Authorization: `Bearer ${PAYSTACK_SECRET_KEY}` },
                 });
-                return response.data;
+                return response.data; // Paystack provides the reference
             }
             catch (error) {
                 console.error("Error initializing payment:", ((_a = error.response) === null || _a === void 0 ? void 0 : _a.data) || error.message);

@@ -51,8 +51,8 @@ class Authorization {
                     return;
                 }
                 req.user = user; // Attach user object to request
-                req.user.id =
-                    next();
+                req.user._id;
+                next();
             }
             catch (error) {
                 console.error("Token verification failed:", error.message);

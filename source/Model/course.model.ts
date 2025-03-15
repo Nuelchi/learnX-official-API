@@ -2,6 +2,10 @@ import mongoose, { model, Schema } from "mongoose";
 import { Icourse } from "../Interface/course.interface";
 
 const courseSchema = new Schema<Icourse>({
+    week: {
+        type: Number,
+        default: 1
+    },
     title: {
         type: String,
         required: [true, 'Please enter the title of the book'],
@@ -21,6 +25,10 @@ const courseSchema = new Schema<Icourse>({
         type: String,
         enum:['Video','Book'],
         required: [true, 'please enter the type of the course']
+    },
+    weeklyTask: {
+        type: String,
+        required: [true, 'please enter the weekly task']
     },
     Link: {
         type: String,

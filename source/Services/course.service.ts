@@ -1,5 +1,7 @@
-import {Icourse}  from "../Interface/course.interface";
+import { Icourse } from "../Interface/course.interface";
 import Course from "../Model/course.model";
+import trackingModel from "../Model/tracking.model";
+import courseModel from "../Model/course.model";
 
 export class CourseService {
     // Add a new course
@@ -18,12 +20,19 @@ export class CourseService {
         return await Course.find(query);
     }
 
-     // Get all courses in a category (backend, frontend etc)
+    // Get all courses in a category (backend, frontend etc)
     async getCourseCategory(category?: string): Promise<Icourse[]> {
         if (category) {
             return await Course.find({ category: { $regex: new RegExp(category, "i") } });
         }
         return await Course.find({});
+    }
+    async getTrackCourses(week: Number, category: String): Promise<Icourse[]> {
+        // Fetch all courses from week 1 to the current week
+        return await courseModel.find({
+            week: { $lte: week }, // Get all courses where week is less than or equal to the current week
+            category
+        });
     }
 
     // Update a course by ID

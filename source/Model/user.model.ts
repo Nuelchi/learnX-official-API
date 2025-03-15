@@ -6,11 +6,11 @@ import validator from 'validator';
 const userSchema = new Schema<Iuser & Document>({
     firstname: {
         type: String,
-        required: true
+        required: [true, 'Please enter the first name of the mentor']
     },
     lastname: {
         type: String,
-        required: true
+        required: [true, 'Please enter the last name of the mentor']
     },
     email: {
         type: String,

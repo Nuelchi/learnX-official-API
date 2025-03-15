@@ -34,38 +34,27 @@ var __importStar = (this && this.__importStar) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importStar(require("mongoose"));
-const courseSchema = new mongoose_1.Schema({
-    week: {
+const trackingSchema = new mongoose_1.Schema({
+    studentId: {
+        type: mongoose_1.Schema.Types.ObjectId,
+        ref: "user",
+        required: true,
+    },
+    email: {
+        type: String,
+        required: true,
+        unique: true,
+    },
+    enrollmentDate: {
+        type: Date,
+        default: Date.now,
+    },
+    currentWeek: {
         type: Number,
-        default: 1
+        default: 1,
     },
-    title: {
+    usertrack: {
         type: String,
-        required: [true, 'Please enter the title of the book'],
-        trim: true // Removes extra spaces
-    },
-    image: {
-        type: String,
-        required: [true, 'please enter the author']
-    },
-    category: {
-        type: String,
-        enum: ['backend', 'frontend', 'product design', 'data analysis'],
-        required: [true, 'please enter the category of the course'],
-        lowercase: true
-    },
-    type: {
-        type: String,
-        enum: ['Video', 'Book'],
-        required: [true, 'please enter the type of the course']
-    },
-    weeklyTask: {
-        type: String,
-        required: [true, 'please enter the weekly task']
-    },
-    Link: {
-        type: String,
-        required: [true, 'please enter the course or book upload url']
     },
 });
-exports.default = mongoose_1.default.model("course", courseSchema);
+exports.default = mongoose_1.default.model("tracking", trackingSchema);

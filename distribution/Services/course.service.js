@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CourseService = void 0;
 const course_model_1 = __importDefault(require("../Model/course.model"));
+const course_model_2 = __importDefault(require("../Model/course.model"));
 class CourseService {
     // Add a new course
     addCourse(courseData) {
@@ -41,6 +42,15 @@ class CourseService {
                 return yield course_model_1.default.find({ category: { $regex: new RegExp(category, "i") } });
             }
             return yield course_model_1.default.find({});
+        });
+    }
+    getTrackCourses(week, category) {
+        return __awaiter(this, void 0, void 0, function* () {
+            // Fetch all courses from week 1 to the current week
+            return yield course_model_2.default.find({
+                week: { $lte: week }, // Get all courses where week is less than or equal to the current week
+                category
+            });
         });
     }
     // Update a course by ID
