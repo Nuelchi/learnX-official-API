@@ -10,6 +10,6 @@ const { authUser, restriction } = new Authorization();
 router.post("/SubmitTask", weeklyTaskController.submitTask);
 
 //  Route to get all submitted tasks for a user 
-router.get("/gradeTask", restriction("admin"), weeklyTaskController.getUserTasks);
+router.get("/gradeTask", weeklyTaskController.getUserTasks);
 
 export default router;
