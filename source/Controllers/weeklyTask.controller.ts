@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { weeklyTaskService } from "../Services/weeklyTask.service";
+import weeklyTaskModel from "../Model/weeklyTask.model";
 
 const WeeklyTaskService = new weeklyTaskService();
 
@@ -15,13 +16,12 @@ export class WeeklyTaskController {
     }
 
     // Get all submitted tasks for a user
-    async getUserTasks(req: Request, res: Response): Promise<void> {
+    async getAllTasks(req: Request, res: Response): Promise<void> {
         try {
-            const { email } = req.params; // Assume email is passed as a route parameter
-            const tasks = await WeeklyTaskService.getSubmittedTasks(email);
-            res.status(200).json({ message: "Tasks retrieved successfully!", tasks });
+            const tasks = await weeklyTaskModel.find(); // Get all tasks from DB
+            res.status(200).json({ message: "All tasks retrieved successfully!", tasks });
         } catch (error: any) {
-            res.status(400).json({ message: error.message });
+            res.status(500).json({ message: error.message });
         }
     }
-}
+};

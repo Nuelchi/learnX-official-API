@@ -38,7 +38,6 @@ const trackingSchema = new mongoose_1.Schema({
     studentId: {
         type: mongoose_1.Schema.Types.ObjectId,
         ref: "user",
-        unique: true,
         required: true,
     },
     email: {

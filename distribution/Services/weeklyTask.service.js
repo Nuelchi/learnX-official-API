@@ -32,12 +32,12 @@ class weeklyTaskService {
             return yield weeklyTask_model_1.default.create(taskData);
         });
     }
-    // Get all submitted tasks for a user
-    getSubmittedTasks(email) {
+    //  Get all submitted tasks (ignoring email)
+    getAllTasks() {
         return __awaiter(this, void 0, void 0, function* () {
-            const tasks = yield weeklyTask_model_1.default.find({ email });
+            const tasks = yield weeklyTask_model_1.default.find(); // Fetch all tasks from the database
             if (!tasks.length) {
-                throw new Error("No submitted tasks found from users yet.");
+                throw new Error("No tasks have been submitted yet.");
             }
             return tasks;
         });

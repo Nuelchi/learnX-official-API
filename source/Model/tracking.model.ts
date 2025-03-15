@@ -5,7 +5,6 @@ const trackingSchema = new Schema<Itracking>({
     studentId: {
         type: Schema.Types.ObjectId, 
         ref: "user",
-        unique:  true,
         required: true,
     },
     email: {

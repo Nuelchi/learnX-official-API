@@ -9,5 +9,5 @@ const { authUser, restriction } = new auth_middleware_1.Authorization();
 // Route to submit a task (protected)
 router.post("/SubmitTask", weeklyTaskController.submitTask);
 //  Route to get all submitted tasks for a user 
-router.get("/gradeTask", weeklyTaskController.getUserTasks);
+router.get("/gradeTask", weeklyTaskController.getAllTasks);
 exports.default = router;

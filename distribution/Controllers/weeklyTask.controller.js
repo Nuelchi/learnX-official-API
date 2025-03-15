@@ -8,9 +8,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.WeeklyTaskController = void 0;
 const weeklyTask_service_1 = require("../Services/weeklyTask.service");
+const weeklyTask_model_1 = __importDefault(require("../Model/weeklyTask.model"));
 const WeeklyTaskService = new weeklyTask_service_1.weeklyTaskService();
 class WeeklyTaskController {
     // Submit a new task
@@ -26,17 +30,17 @@ class WeeklyTaskController {
         });
     }
     // Get all submitted tasks for a user
-    getUserTasks(req, res) {
+    getAllTasks(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const { email } = req.params; // Assume email is passed as a route parameter
-                const tasks = yield WeeklyTaskService.getSubmittedTasks(email);
-                res.status(200).json({ message: "Tasks retrieved successfully!", tasks });
+                const tasks = yield weeklyTask_model_1.default.find(); // Get all tasks from DB
+                res.status(200).json({ message: "All tasks retrieved successfully!", tasks });
             }
             catch (error) {
-                res.status(400).json({ message: error.message });
+                res.status(500).json({ message: error.message });
             }
         });
     }
 }
 exports.WeeklyTaskController = WeeklyTaskController;
+;

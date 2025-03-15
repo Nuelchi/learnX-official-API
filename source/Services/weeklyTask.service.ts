@@ -22,14 +22,13 @@ export class    weeklyTaskService {
         return await weeklyTaskModel.create(taskData);
     }
 
-    // Get all submitted tasks for a user
-    async getSubmittedTasks(email: string): Promise<Itask[]> {
-        const tasks = await weeklyTaskModel.find({ email });
-
+    //  Get all submitted tasks (ignoring email)
+    async getAllTasks(): Promise<Itask[]> {
+        const tasks = await weeklyTaskModel.find(); // Fetch all tasks from the database
         if (!tasks.length) {
-            throw new Error("No submitted tasks found from users yet.");
+            throw new Error("No tasks have been submitted yet.");
         }
-
         return tasks;
     }
 }
+
