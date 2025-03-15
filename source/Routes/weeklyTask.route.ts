@@ -1,9 +1,15 @@
 import { Router } from "express";
-import { weeklyTaskController } from "../Controllers/weeklyTask.controller";
+import { WeeklyTaskController } from "../Controllers/weeklyTask.controller";
+import { Authorization } from "../Authorization/auth.middleware";
 
-const  {submitTask} = new weeklyTaskController;
 const router = Router();
+const weeklyTaskController = new WeeklyTaskController();
+const { authUser, restriction } = new Authorization();
 
-router.post("/SubmitTask", submitTask);
+// Route to submit a task (protected)
+router.post("/SubmitTask", weeklyTaskController.submitTask);
 
-export default router
+//  Route to get all submitted tasks for a user 
+router.get("/gradeTask", restriction("admin"), weeklyTaskController.getUserTasks);
+
+export default router;

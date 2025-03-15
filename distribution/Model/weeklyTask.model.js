@@ -40,6 +40,9 @@ const weeklTaskSchema = new mongoose_1.Schema({
         required: true,
         unique: true,
     },
+    taskWeek: {
+        type: Number,
+    },
     taskURL: {
         type: String,
     },

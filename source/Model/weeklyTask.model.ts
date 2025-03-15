@@ -7,6 +7,9 @@ const weeklTaskSchema = new Schema<Itask>({
         required: true,
         unique: true,
     },
+    taskWeek: {
+        type: Number,
+    },
     taskURL: {
         type: String,
     },

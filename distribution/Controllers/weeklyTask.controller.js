@@ -9,22 +9,34 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.weeklyTaskController = void 0;
+exports.WeeklyTaskController = void 0;
 const weeklyTask_service_1 = require("../Services/weeklyTask.service");
-const weeklyTask = new weeklyTask_service_1.weeklyTaskService();
-class weeklyTaskController {
-    // Add a new course
+const WeeklyTaskService = new weeklyTask_service_1.weeklyTaskService();
+class WeeklyTaskController {
+    // Submit a new task
     submitTask(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const Task = yield weeklyTask.addTask(req.body);
-                res.status(201).json({ message: "Task submitted successfully!", Task });
+                const task = yield WeeklyTaskService.addTask(req.body);
+                res.status(201).json({ message: "Task submitted successfully!", task });
             }
             catch (error) {
                 res.status(400).json({ message: error.message });
             }
         });
     }
+    // Get submitted tasks for a user
+    getUserTasks(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { email } = req.params;
+                const tasks = yield WeeklyTaskService.getSubmittedTasks(email);
+                res.status(200).json({ message: "Tasks retrieved successfully!", tasks });
+            }
+            catch (error) {
+                res.status(404).json({ message: error.message });
+            }
+        });
+    }
 }
-exports.weeklyTaskController = weeklyTaskController;
-;
+exports.WeeklyTaskController = WeeklyTaskController;
