@@ -37,7 +37,6 @@ const mongoose_1 = __importStar(require("mongoose"));
 const weeklyTaskSchema = new mongoose_1.Schema({
     email: {
         type: String,
-        required: true,
     },
     taskWeek: {
         type: Number,
