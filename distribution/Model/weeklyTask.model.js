@@ -34,11 +34,7 @@ var __importStar = (this && this.__importStar) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importStar(require("mongoose"));
-const weeklyTaskSchema = new mongoose_1.Schema({
-    email: {
-        type: String,
-        index: false,
-    },
+const taskSchema = new mongoose_1.Schema({
     taskWeek: {
         type: Number,
         required: true,
@@ -47,5 +43,13 @@ const weeklyTaskSchema = new mongoose_1.Schema({
         type: String,
         required: true,
     },
+});
+const weeklyTaskSchema = new mongoose_1.Schema({
+    email: {
+        type: String,
+        required: true,
+        unique: true, // Ensure only one entry per email
+    },
+    tasks: [taskSchema], // Store multiple tasks in an array
 }, { timestamps: true });
 exports.default = mongoose_1.default.model("WeeklyTask", weeklyTaskSchema);

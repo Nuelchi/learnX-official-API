@@ -13,16 +13,16 @@ exports.WeeklyTaskController = void 0;
 const weeklyTask_service_1 = require("../Services/weeklyTask.service");
 const weeklyTaskService = new weeklyTask_service_1.WeeklyTaskService();
 class WeeklyTaskController {
-    //  Submit a new task (Fetches currentWeek from trackingModel)
+    // ✅ Submit a new task
     submitTask(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const { email, taskWeek, taskURL } = req.body;
                 if (!email || !taskWeek || !taskURL) {
-                    res.status(400).json({ message: "Missing required fields: email, taskWeek, or taskURL." });
+                    res.status(400).json({ message: "Email, taskWeek, and taskURL are required." });
                     return;
                 }
-                const task = yield weeklyTaskService.addTask({ email, taskWeek, taskURL });
+                const task = yield weeklyTaskService.addTask(email, { taskWeek, taskURL });
                 res.status(201).json({ message: "Task submitted successfully!", task });
             }
             catch (error) {
@@ -30,7 +30,7 @@ class WeeklyTaskController {
             }
         });
     }
-    //  Get all submitted tasks
+    // ✅ Get all submitted tasks
     getAllTasks(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {

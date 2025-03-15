@@ -16,25 +16,37 @@ exports.WeeklyTaskService = void 0;
 const weeklyTask_model_1 = __importDefault(require("../Model/weeklyTask.model"));
 const tracking_model_1 = __importDefault(require("../Model/tracking.model"));
 class WeeklyTaskService {
-    //  Submit a new task (Fetching currentWeek from tracking model)
-    addTask(taskData) {
+    // ✅ Submit a new task (Store multiple tasks under the same email)
+    addTask(email, taskData) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { email, taskWeek, taskURL } = taskData;
-            // Fetch user's current week from trackingModel
-            const userTracking = yield tracking_model_1.default.findOne({ email });
-            if (!userTracking) {
-                throw new Error("User not found in tracking records.");
+            const { taskWeek, taskURL } = taskData;
+            // Fetch the user's current week from the tracking model
+            const user = yield tracking_model_1.default.findOne({ email });
+            if (!user) {
+                throw new Error("User not found.");
             }
-            const currentWeek = userTracking.currentWeek;
-            //  Ensure users are not submitting tasks beyond their current week
-            if (taskWeek > currentWeek) {
-                throw new Error(`You cannot submit a task for week ${taskWeek}. Your current progress is week ${currentWeek}.`);
+            // Ensure the user is not submitting a task beyond their progress
+            if (taskWeek > user.currentWeek) {
+                throw new Error(`You cannot submit a task for week ${taskWeek}. Your current progress is week ${user.currentWeek}.`);
             }
-            //  Create task with email 
-            return yield weeklyTask_model_1.default.create({ email, taskWeek, taskURL });
+            // ✅ Check if the email already exists in the WeeklyTask collection
+            const existingUserTask = yield weeklyTask_model_1.default.findOne({ email });
+            if (existingUserTask) {
+                // ✅ Push the new task into the existing array
+                existingUserTask.tasks.push({ taskWeek, taskURL });
+                yield existingUserTask.save();
+                return existingUserTask;
+            }
+            else {
+                // ✅ Create a new document for this user with the task array
+                return yield weeklyTask_model_1.default.create({
+                    email,
+                    tasks: [{ taskWeek, taskURL }],
+                });
+            }
         });
     }
-    // Get all submitted tasks
+    // ✅ Get all submitted tasks
     getAllTasks() {
         return __awaiter(this, void 0, void 0, function* () {
             const tasks = yield weeklyTask_model_1.default.find();
