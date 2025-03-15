@@ -7,7 +7,7 @@ const weeklyTaskController = new WeeklyTaskController();
 const { authUser, restriction } = new Authorization();
 
 // Route to submit a task (protected)
-router.post("/SubmitTask", weeklyTaskController.submitTask);
+router.post("/SubmitTask", authUser, weeklyTaskController.submitTask);
 
 //  Route to get all submitted tasks for a user 
 router.get("/gradeTask", weeklyTaskController.getAllTasks);

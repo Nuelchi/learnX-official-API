@@ -34,15 +34,19 @@ var __importStar = (this && this.__importStar) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importStar(require("mongoose"));
-const weeklTaskSchema = new mongoose_1.Schema({
-    email: {
-        type: String,
+const weeklyTaskSchema = new mongoose_1.Schema({
+    studentId: {
+        type: mongoose_1.Schema.Types.ObjectId,
+        ref: "user",
+        required: true,
     },
     taskWeek: {
         type: Number,
+        required: true,
     },
     taskURL: {
         type: String,
+        required: true,
     },
-});
-exports.default = mongoose_1.default.model("weeklyTasks", weeklTaskSchema);
+}, { timestamps: true });
+exports.default = mongoose_1.default.model("WeeklyTask", weeklyTaskSchema);

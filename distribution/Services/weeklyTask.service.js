@@ -12,30 +12,31 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.weeklyTaskService = void 0;
+exports.WeeklyTaskService = void 0;
 const weeklyTask_model_1 = __importDefault(require("../Model/weeklyTask.model"));
 const tracking_model_1 = __importDefault(require("../Model/tracking.model"));
-class weeklyTaskService {
-    // Submit a new task
-    addTask(taskData) {
+class WeeklyTaskService {
+    //  Submit a new task (Using student ID)
+    addTask(userId, taskData) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { email, taskWeek } = taskData;
+            const { taskWeek, taskURL } = taskData;
             // Check if the user exists in the tracking model
-            const user = yield tracking_model_1.default.findOne({ email });
+            const user = yield tracking_model_1.default.findOne({ userId });
             if (!user) {
-                throw new Error("User not found. Please submit the task with the same email used during enrollment.");
+                throw new Error("User not found. Please submit the task with the same account used during enrollment.");
             }
             // Ensure users are not submitting tasks greater than their current week
             if (taskWeek > user.currentWeek) {
                 throw new Error(`You cannot submit a task for week ${taskWeek}. Your current progress is week ${user.currentWeek}.`);
             }
-            return yield weeklyTask_model_1.default.create(taskData);
+            // Create task with authenticated user's ID
+            return yield weeklyTask_model_1.default.create({ studentId: userId, taskWeek, taskURL });
         });
     }
-    //  Get all submitted tasks (ignoring email)
+    // Get all submitted tasks
     getAllTasks() {
         return __awaiter(this, void 0, void 0, function* () {
-            const tasks = yield weeklyTask_model_1.default.find(); // Fetch all tasks from the database
+            const tasks = yield weeklyTask_model_1.default.find();
             if (!tasks.length) {
                 throw new Error("No tasks have been submitted yet.");
             }
@@ -43,4 +44,4 @@ class weeklyTaskService {
         });
     }
 }
-exports.weeklyTaskService = weeklyTaskService;
+exports.WeeklyTaskService = WeeklyTaskService;

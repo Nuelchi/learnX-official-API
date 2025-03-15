@@ -8,20 +8,22 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.WeeklyTaskController = void 0;
 const weeklyTask_service_1 = require("../Services/weeklyTask.service");
-const weeklyTask_model_1 = __importDefault(require("../Model/weeklyTask.model"));
-const WeeklyTaskService = new weeklyTask_service_1.weeklyTaskService();
+const weeklyTaskService = new weeklyTask_service_1.WeeklyTaskService();
 class WeeklyTaskController {
-    // Submit a new task
+    // ✅ Submit a new task (Uses `(req as any).user.id`)
     submitTask(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const task = yield WeeklyTaskService.addTask(req.body);
+                const user = req.user; // Extract authenticated user
+                if (!user || !user.id) {
+                    res.status(401).json({ message: "Unauthorized. User not found." });
+                    return;
+                }
+                const { taskWeek, taskURL } = req.body;
+                const task = yield weeklyTaskService.addTask(user.id, { taskWeek, taskURL });
                 res.status(201).json({ message: "Task submitted successfully!", task });
             }
             catch (error) {
@@ -29,11 +31,11 @@ class WeeklyTaskController {
             }
         });
     }
-    // Get all submitted tasks for a user
+    // ✅ Get all submitted tasks
     getAllTasks(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const tasks = yield weeklyTask_model_1.default.find(); // Get all tasks from DB
+                const tasks = yield weeklyTaskService.getAllTasks();
                 res.status(200).json({ message: "All tasks retrieved successfully!", tasks });
             }
             catch (error) {
@@ -43,4 +45,3 @@ class WeeklyTaskController {
     }
 }
 exports.WeeklyTaskController = WeeklyTaskController;
-;
