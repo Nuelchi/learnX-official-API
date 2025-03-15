@@ -27,7 +27,7 @@ export class    weeklyTaskService {
         const tasks = await weeklyTaskModel.find({ email });
 
         if (!tasks.length) {
-            throw new Error("No submitted tasks found for this user.");
+            throw new Error("No submitted tasks found from users yet.");
         }
 
         return tasks;

@@ -37,7 +37,7 @@ class weeklyTaskService {
         return __awaiter(this, void 0, void 0, function* () {
             const tasks = yield weeklyTask_model_1.default.find({ email });
             if (!tasks.length) {
-                throw new Error("No submitted tasks found for this user.");
+                throw new Error("No submitted tasks found from users yet.");
             }
             return tasks;
         });
