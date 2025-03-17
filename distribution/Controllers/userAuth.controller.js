@@ -16,6 +16,7 @@ class UserController {
     //signup
     signUp(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
+            var _a;
             const userData = req.body;
             const { firstname, lastname, email, password } = userData;
             if (!firstname || !lastname || !email || !password)
@@ -26,7 +27,12 @@ class UserController {
             }
             catch (error) {
                 console.log(error);
-                res.status(500).json(error.message);
+                if (error.name === "ValidationError") {
+                    const validationErrors = error.errors;
+                    const firstError = ((_a = Object.values(validationErrors)[0]) === null || _a === void 0 ? void 0 : _a.message) || "Validation failed";
+                    res.status(400).json({ error: firstError });
+                }
+                res.status(500).json({ error: error.message });
             }
         });
     }

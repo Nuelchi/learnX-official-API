@@ -16,9 +16,14 @@ export class UserController {
       res.status(201).json({ message: "user registered successfully", user: newUser });
     } catch (error: any) {
       console.log(error);
-      res.status(500).json(error.message)
-    }
 
+      if (error.name === "ValidationError") {
+        const validationErrors = error.errors as Record<string, any>;
+        const firstError = Object.values(validationErrors)[0]?.message || "Validation failed";
+        res.status(400).json({ error: firstError });
+      }
+      res.status(500).json({ error: error.message })
+    }
   };
 
   //sign in
