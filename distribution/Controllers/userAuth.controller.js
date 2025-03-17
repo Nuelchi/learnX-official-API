@@ -16,7 +16,6 @@ class UserController {
     //signup
     signUp(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            var _a;
             const userData = req.body;
             const { firstname, lastname, email, password } = userData;
             if (!firstname || !lastname || !email || !password)
@@ -27,12 +26,12 @@ class UserController {
             }
             catch (error) {
                 console.log(error);
-                if (error.name === "ValidationError") {
-                    const validationErrors = error.errors;
-                    const firstError = ((_a = Object.values(validationErrors)[0]) === null || _a === void 0 ? void 0 : _a.message) || "Validation failed";
-                    res.status(400).json({ error: firstError });
-                }
-                res.status(500).json({ error: error.message });
+                // if (error.name === "ValidationError") {
+                //   const validatorErrors = error.errors as Record<string, any>;
+                //   const firstError = Object.values(validatorErrors)[0]?.message || "Validation failed";
+                //   res.status(400).json({ error: firstError });
+                // }
+                res.status(500).json({ message: "user validation failed", error: error.message });
             }
         });
     }

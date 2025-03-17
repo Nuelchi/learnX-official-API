@@ -17,12 +17,12 @@ export class UserController {
     } catch (error: any) {
       console.log(error);
 
-      if (error.name === "ValidationError") {
-        const validationErrors = error.errors as Record<string, any>;
-        const firstError = Object.values(validationErrors)[0]?.message || "Validation failed";
-        res.status(400).json({ error: firstError });
-      }
-      res.status(500).json({ error: error.message })
+      // if (error.name === "ValidationError") {
+      //   const validatorErrors = error.errors as Record<string, any>;
+      //   const firstError = Object.values(validatorErrors)[0]?.message || "Validation failed";
+      //   res.status(400).json({ error: firstError });
+      // }
+      res.status(500).json({message: "user validation failed", error:error.message})
     }
   };
 
