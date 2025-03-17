@@ -16,7 +16,7 @@ export class UserController {
       res.status(201).json({ message: "user registered successfully", user: newUser });
     } catch (error: any) {
       console.log(error);
-      res.status(500).json({ error: error.message })
+      res.status(500).json( "user validation failed" )
     }
 
   };
