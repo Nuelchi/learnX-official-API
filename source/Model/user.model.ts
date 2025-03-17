@@ -29,7 +29,6 @@ const userSchema = new Schema<Iuser & Document>({
             validator: function (this: any, value: string) {
                 return value === this.password;
             },
-            message: 'Password and confirm password do not match',
         },
     },
 

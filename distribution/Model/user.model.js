@@ -41,7 +41,6 @@ const userSchema = new mongoose_1.Schema({
             validator: function (value) {
                 return value === this.password;
             },
-            message: 'Password and confirm password do not match',
         },
     },
     role: {
