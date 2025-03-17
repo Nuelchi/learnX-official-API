@@ -25,14 +25,14 @@ const userSchema = new Schema<Iuser & Document>({
     confirmPassword: {
         type: String,
         required: [true, 'Please confirm your password'],
-        minlength: 8,
         validate: {
-            validator: function (this: Iuser, confirmPassword: string) {
-                return confirmPassword === this.password;
+            validator: function (this: any, value: string) {
+                return value === this.password;
             },
             message: 'Password and confirm password do not match',
         },
     },
+
     
     role: {
         type: String,

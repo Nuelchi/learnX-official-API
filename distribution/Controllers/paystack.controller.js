@@ -26,7 +26,7 @@ class InitializePayment {
                     res.status(401).json({ message: "Unauthorized. User not found." });
                     return;
                 }
-                const amount = 100000; // Fixed amount
+                const amount = 450000; // Fixed amount
                 // Initialize payment with Paystack
                 const paymentResponse = yield paystackService_1.paystackService.initializePayment(user.email, amount);
                 if (!paymentResponse.status || !paymentResponse.data || !paymentResponse.data.reference) {

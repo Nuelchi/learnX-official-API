@@ -13,7 +13,7 @@ export class InitializePayment {
                 return;
             }
 
-            const amount = 100000; // Fixed amount
+            const amount = 450000; // Fixed amount
 
             // Initialize payment with Paystack
             const paymentResponse = await paystackService.initializePayment(user.email, amount);
