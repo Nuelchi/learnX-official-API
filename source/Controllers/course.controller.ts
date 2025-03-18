@@ -33,7 +33,7 @@ export class CourseController {
     }
 
     // Get all courses
-    async getCoursebyTrack(req: Request, res: Response): Promise<void> {
+    async getCoursebyTracker(req: Request, res: Response): Promise<void> {
         try {
             const user = (req as any).user;
             if (!user) {

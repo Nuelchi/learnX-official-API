@@ -48,7 +48,7 @@ class CourseController {
         });
     }
     // Get all courses
-    getCoursebyTrack(req, res) {
+    getCoursebyTracker(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const user = req.user;
