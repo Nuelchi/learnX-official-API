@@ -5,7 +5,7 @@ import UserModel from "../Model/user.model";
 
 export class CourseEnrollService {
     static async enrollUser(courseData: IcourseEnroll) {
-        const { email } = courseData;
+        const { firstname, lastname, email, phone, track} = courseData;
 
         try {
             // Step 1: Check if the user exists
@@ -15,12 +15,6 @@ export class CourseEnrollService {
                 throw new Error("User not found. Please sign up with the same email you used to register on learnx.");
             }
 
-            // // Step 2: Check if the user has paid (isSubscribed)
-            // if (!user.isSubscribed) {
-            //     throw new Error("Payment required. Please pay before enrolling in a course or track.");
-            // }
-
-            // Step 3: Check if the user is already enrolled
             let existingEnrollment = await TrackingModel.findOne({ studentId: user._id });
 
             if (existingEnrollment) {
@@ -34,10 +28,14 @@ export class CourseEnrollService {
             // Step 5: Create new tracking record
             const newTracking = new TrackingModel({
                 studentId: user._id,
+                firstname: firstname,
+                lastname: lastname,
                 email: user.email,
+                phone: phone,
+                track: track,
                 enrollmentDate: new Date(),
                 currentWeek: 1,
-                usertrack: newEnrollment.track
+                
             });
 
             await newTracking.save();

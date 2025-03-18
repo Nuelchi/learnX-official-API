@@ -3,7 +3,7 @@ export interface Icourse {
   title: string,
   image: string,
   category: string,
-  type: "video" | "document"
+  type: "video" | "book"
   weeklyTask: String,
   Link: string,
 };

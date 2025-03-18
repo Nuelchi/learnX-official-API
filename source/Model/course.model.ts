@@ -17,13 +17,13 @@ const courseSchema = new Schema<Icourse>({
     },
     category: {
         type: String,
-        enum:['backend', 'frontend','product design', 'data analysis'],
+        enum:['backend', 'frontend','product design', 'data analysis', "artificial intelligence"],
         required: [true, 'please enter the category of the course'],
         lowercase: true
     },
     type: {
         type: String,
-        enum:['Video','Book'],
+        enum:['video','book'],
         required: [true, 'please enter the type of the course']
     },
     weeklyTask: {

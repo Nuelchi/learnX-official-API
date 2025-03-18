@@ -40,10 +40,28 @@ const trackingSchema = new mongoose_1.Schema({
         ref: "user",
         required: true,
     },
+    firstname: {
+        type: String,
+        required: true,
+        unique: true,
+    },
+    lastname: {
+        type: String,
+        required: true,
+        unique: true,
+    },
     email: {
         type: String,
         required: true,
         unique: true,
+    },
+    phone: {
+        type: String,
+        required: true,
+        unique: true,
+    },
+    track: {
+        type: String,
     },
     enrollmentDate: {
         type: Date,
@@ -52,9 +70,6 @@ const trackingSchema = new mongoose_1.Schema({
     currentWeek: {
         type: Number,
         default: 1,
-    },
-    usertrack: {
-        type: String,
     },
 });
 exports.default = mongoose_1.default.model("tracking", trackingSchema);

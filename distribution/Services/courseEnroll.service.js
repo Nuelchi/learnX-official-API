@@ -19,18 +19,13 @@ const user_model_1 = __importDefault(require("../Model/user.model"));
 class CourseEnrollService {
     static enrollUser(courseData) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { email } = courseData;
+            const { firstname, lastname, email, phone, track } = courseData;
             try {
                 // Step 1: Check if the user exists
                 const user = yield user_model_1.default.findOne({ email });
                 if (!user) {
                     throw new Error("User not found. Please sign up with the same email you used to register on learnx.");
                 }
-                // // Step 2: Check if the user has paid (isSubscribed)
-                // if (!user.isSubscribed) {
-                //     throw new Error("Payment required. Please pay before enrolling in a course or track.");
-                // }
-                // Step 3: Check if the user is already enrolled
                 let existingEnrollment = yield tracking_model_1.default.findOne({ studentId: user._id });
                 if (existingEnrollment) {
                     return { message: "You are already enrolled.", tracking: existingEnrollment };
@@ -41,10 +36,13 @@ class CourseEnrollService {
                 // Step 5: Create new tracking record
                 const newTracking = new tracking_model_1.default({
                     studentId: user._id,
+                    firstname: firstname,
+                    lastname: lastname,
                     email: user.email,
+                    phone: phone,
+                    track: track,
                     enrollmentDate: new Date(),
                     currentWeek: 1,
-                    usertrack: newEnrollment.track
                 });
                 yield newTracking.save();
                 return { message: "Enrollment successful", tracking: newTracking };

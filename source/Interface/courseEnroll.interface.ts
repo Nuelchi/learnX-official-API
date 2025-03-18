@@ -2,5 +2,9 @@ export interface IcourseEnroll {
     firstname: string;
     lastname: string;
     email: string;
-    track: 'backend' | 'frontend' | 'product design' | 'data analysis';
+    dateofbirth: Date;
+    gender: string;
+    phone: string;
+    track: string;
+    address: string;
 }

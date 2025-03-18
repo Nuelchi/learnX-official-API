@@ -62,7 +62,7 @@ export class CourseController {
             }
     
             const currentWeek = usertrack.currentWeek;
-            const track = usertrack.usertrack;
+            const track = usertrack.track;
     
             // Fetch courses based on the user's track
             const courses = await courseService.getTrackCourses(currentWeek, track);

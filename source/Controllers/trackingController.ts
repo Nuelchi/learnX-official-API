@@ -14,20 +14,21 @@ export class TrackingController {
         }
     }
 
-    //  Get tracking details for a specific user by email
-    // async getUserTracking(req: Request, res: Response): Promise<void> {
-    //     try {
-    //         const { email } = req.params;
 
-    //         if (!email) {
-    //             res.status(400).json({ message: "Email is required." });
-    //             return;
-    //         }
+    async getOneTrack(req: Request, res: Response): Promise<void> {
+        try {
+            const { track } = req.query;
+            const trackData = track
+                ? await trackingService.getOneTrack(track as string)
+                : await trackingService.getOneTrack(); // Fetch all courses if no title is provided
 
-    //         const userTracking = await trackingService.getUserTracking(email);
-    //         res.status(200).json({ message: "User tracking retrieved successfully!", userTracking });
-    //     } catch (error: any) {
-    //         res.status(400).json({ message: error.message });
-    //     }
-    // }
-}
+            if (!trackData.length) {
+                res.status(404).json({ message: "No courses found" });
+                return;
+            }
+
+            res.status(200).json(trackData);
+        } catch (error: any) {
+            res.status(500).json({ message: error.message });
+        }
+    }};

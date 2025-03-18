@@ -21,9 +21,26 @@ const courseEnrollSchema = new mongoose_1.Schema({
         unique: true,
         validate: [validator_1.default.isEmail, 'Please enter a valid email address'],
     },
+    dateofbirth: {
+        type: Date,
+        required: true
+    },
+    gender: {
+        type: String,
+        required: true
+    },
+    phone: {
+        type: String,
+        required: true,
+        unique: [true, 'Please enter a your phone number']
+    },
     track: {
         type: String,
-        enum: ['backend', 'frontend', 'product design', 'data analysis'],
+        required: true,
+        unique: [true, 'Please enter your track']
+    },
+    address: {
+        type: String,
         required: [true, 'please enter course track'],
         lowercase: true
     },

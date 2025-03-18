@@ -7,10 +7,28 @@ const trackingSchema = new Schema<Itracking>({
         ref: "user",
         required: true,
     },
+    firstname: {
+        type: String,
+        required: true,
+        unique: true,
+    },
+    lastname: {
+        type: String,
+        required: true,
+        unique: true,
+    },
     email: {
         type: String,
         required: true,
         unique: true,
+    },
+    phone: {
+        type: String,
+        required: true,
+        unique: true,
+    },
+    track: {
+        type: String,
     },
     enrollmentDate: {
         type: Date,
@@ -20,9 +38,7 @@ const trackingSchema = new Schema<Itracking>({
         type: Number,
         default: 1,
     },
-    usertrack: {
-        type: String,
-    },
+
 });
 
 export default mongoose.model("tracking", trackingSchema);

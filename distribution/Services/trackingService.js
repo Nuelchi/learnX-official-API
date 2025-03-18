@@ -25,14 +25,11 @@ class TrackingService {
             return trackingDetails;
         });
     }
-    //  Get tracking details for a specific user by email
-    getUserTracking(email) {
+    //  Get tracking details for a specific track by track name
+    getOneTrack(track) {
         return __awaiter(this, void 0, void 0, function* () {
-            const userTracking = yield tracking_model_1.default.findOne({ email });
-            if (!userTracking) {
-                throw new Error("Tracking details not found for this user.");
-            }
-            return userTracking;
+            const query = track ? { track: { $regex: new RegExp(track, "i") } } : {};
+            return yield tracking_model_1.default.find(query);
         });
     }
 }

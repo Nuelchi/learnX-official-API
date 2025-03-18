@@ -74,7 +74,7 @@ class CourseController {
                     return;
                 }
                 const currentWeek = usertrack.currentWeek;
-                const track = usertrack.usertrack;
+                const track = usertrack.track;
                 // Fetch courses based on the user's track
                 const courses = yield course_service_2.default.getTrackCourses(currentWeek, track);
                 res.status(200).json({ message: "Courses retrieved successfully", courses });

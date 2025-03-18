@@ -17,9 +17,28 @@ const courseEnrollSchema = new Schema<IcourseEnroll>({
         unique: true,
         validate: [validator.isEmail, 'Please enter a valid email address'],
     },
+    dateofbirth: {
+        type: Date,
+        required: true
+    },
+    gender: {
+        type: String,
+        required: true
+    },
+    phone: {
+        type: String,
+        required: true,
+        unique: [true, 'Please enter a your phone number']
+
+    },
     track: {
         type: String,
-        enum:['backend', 'frontend','product design', 'data analysis'],
+        required: true,
+        unique: [true, 'Please enter your track']
+
+    },
+    address: {
+        type: String,
         required: [true, 'please enter course track'],
         lowercase: true
     },

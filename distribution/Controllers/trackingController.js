@@ -25,5 +25,24 @@ class TrackingController {
             }
         });
     }
+    getOneTrack(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { track } = req.query;
+                const trackData = track
+                    ? yield trackingService.getOneTrack(track)
+                    : yield trackingService.getOneTrack(); // Fetch all courses if no title is provided
+                if (!trackData.length) {
+                    res.status(404).json({ message: "No courses found" });
+                    return;
+                }
+                res.status(200).json(trackData);
+            }
+            catch (error) {
+                res.status(500).json({ message: error.message });
+            }
+        });
+    }
 }
 exports.TrackingController = TrackingController;
+;
