@@ -1,36 +1,44 @@
 import cron from "node-cron";
-import TrackingModel from "./Model/tracking.model";
+import TrackingModel from "./Model/tracking.model"; // Ensure correct path
+import mongoose from "mongoose";
 
+/**
+ * ✅ Update currentWeek every Sunday at midnight
+ */
 const updateCurrentWeek = async () => {
     try {
-        await TrackingModel.updateMany({}, { $inc: { currentWeek: 1 } });
-        console.log(" Weekly course progress updated!");
+        console.log("⏳ Running scheduled job to update currentWeek...");
+
+        // Increment `currentWeek` for all users
+        const result = await TrackingModel.updateMany({}, { $inc: { currentWeek: 1 } });
+
+        console.log(`✅ Current week updated for ${result.modifiedCount} users.`);
     } catch (error) {
-        console.error(" Failed to update currentWeek:", error);
+        console.error("❌ Error updating current week:", error);
     }
 };
 
-// Run every Sunday at midnight (00:00)
+// Schedule job to run every Sunday at midnight
 cron.schedule("0 0 * * 0", () => {
-    console.log("⏳ Running scheduled job to update currentWeek...");
     updateCurrentWeek();
 });
 
 
-//update completed hours
+/**
+ * ✅ Update completedHours every hour
+ */
 const updateCompletedHours = async () => {
     try {
-        const now = new Date();
+        console.log("⏳ Running scheduled job to update user completed hours...");
 
-        // Update the completedHours for each enrolled student
         const updates = await TrackingModel.updateMany(
-            {}, 
+            { enrollmentDate: { $exists: true, $ne: null } }, // Ensure enrollmentDate exists
             [
                 {
                     $set: {
                         completedHours: {
                             $divide: [
-                                { $subtract: [now, "$enrollmentDate"] }, 
+                                { $subtract: [new Date(), "$enrollmentDate"] },
                                 1000 * 60 * 60 // Convert milliseconds to hours
                             ]
                         }
@@ -39,14 +47,18 @@ const updateCompletedHours = async () => {
             ]
         );
 
-        console.log("⏳ User enrollment hours updated successfully!");
+        console.log(`✅ Completed Hours Updated for ${updates.modifiedCount} users.`);
     } catch (error) {
-        console.error(" Failed to update completedHours:", error);
+        console.error("❌ Failed to update completedHours:", error);
     }
 };
 
 // Schedule job to run every hour
 cron.schedule("0 * * * *", () => {
-    console.log("🔄 Running scheduled job to update user completed hours...");
     updateCompletedHours();
 });
+
+/**
+ * ✅ Debugging: Ensure cron jobs are scheduled
+ */
+console.log("✅ Cron jobs for `currentWeek` and `completedHours` have been scheduled.");
