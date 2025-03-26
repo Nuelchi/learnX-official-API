@@ -19,7 +19,7 @@ dotenv_1.default.config(); // Load environment variables
 const PAYSTACK_SECRET_KEY = process.env.PAYSTACK_SECRET_KEY;
 const FRONTEND_URL = process.env.FRONTEND_URL;
 exports.paystackService = {
-    // Initialize Payment (Now gets reference from Paystack)
+    // Initialize Payment (Gets reference from Paystack)
     initializePayment(email, amount) {
         return __awaiter(this, void 0, void 0, function* () {
             var _a;
@@ -28,7 +28,7 @@ exports.paystackService = {
                     email,
                     amount: amount * 100, // Convert Naira to Kobo
                     currency: "NGN",
-                    callback_url: `${FRONTEND_URL}/payment/payment-success`, // Redirect URL after payment
+                    callback_url: `${FRONTEND_URL}/payment-success`, // Redirect URL after payment
                 }, {
                     headers: { Authorization: `Bearer ${PAYSTACK_SECRET_KEY}` },
                 });

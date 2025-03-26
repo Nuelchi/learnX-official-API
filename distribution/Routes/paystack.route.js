@@ -16,6 +16,22 @@ const FRONTEND_URL = process.env.FRONTEND_URL || "example.com";
 router.post("/pay", authUser, paymentController.initPay);
 router.get("/verify/:reference", authUser, paymentController.verifyPay);
 router.get("/payment-success", (req, res) => {
-    res.send(`Payment was successful! You can now access your content. click the link to return to dashboard ${FRONTEND_URL}`);
+    res.send(`
+      <html>
+          <head>
+              <title>Payment Success</title>
+          </head>
+          <body style="text-align: center; font-family: Arial, sans-serif; padding: 20px;">
+              <h2>Payment was successful! 🎉</h2>
+              <p>You can now access your content.</p>
+              <p>
+                  <a href="${FRONTEND_URL}" style="display: inline-block; padding: 10px 15px; background-color: #4CAF50; 
+                  color: white; text-decoration: none; border-radius: 5px; font-weight: bold;">
+                      Click here to return to the dashboard
+                  </a>
+              </p>
+          </body>
+      </html>
+  `);
 });
 exports.default = router;

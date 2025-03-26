@@ -13,7 +13,7 @@ interface PaystackResponse {
 }
 
 export const paystackService = {
-    // Initialize Payment (Now gets reference from Paystack)
+    // Initialize Payment (Gets reference from Paystack)
     async initializePayment(email: string, amount: number): Promise<PaystackResponse> {
         try {
             const response = await axios.post<PaystackResponse>(
