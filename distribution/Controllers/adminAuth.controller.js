@@ -35,8 +35,11 @@ class adminController {
     loginAdmin(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                yield userService.signIn(req.body);
-                res.status(201).json({ message: "welcome back, you are successfully signed in" });
+                const { user, } = yield userService.signIn(req.body);
+                res.status(200).json({
+                    message: "You have signed in successfully",
+                    user
+                });
             }
             catch (error) {
                 console.log(error);

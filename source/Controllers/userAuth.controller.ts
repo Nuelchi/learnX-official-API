@@ -9,19 +9,13 @@ export class UserController {
   async signUp(req: Request, res: Response): Promise<void> {
     const userData = req.body;
     const { firstname, lastname, email, password } = userData;
-    if (!firstname || !lastname || !email || !password) throw new Error("all filed required");
+    if (!firstname || !lastname || !email || !password) throw new Error("all fiel~d required");
 
     try {
       const newUser = await userService.signUp(userData);
       res.status(201).json({ message: "user registered successfully", user: newUser });
     } catch (error: any) {
       console.log(error);
-
-      // if (error.name === "ValidationError") {
-      //   const validatorErrors = error.errors as Record<string, any>;
-      //   const firstError = Object.values(validatorErrors)[0]?.message || "Validation failed";
-      //   res.status(400).json({ error: firstError });
-      // }
       res.status(500).json({message: "user validation failed", error:error.message})
     }
   };

@@ -16,10 +16,18 @@ export class adminService {
     };
 
     async signIn(data: { email: string; password: string }) {
-        const Newuser = await admin.findOne({ email: data.email });
-        if (!Newuser || !(await bcrypt.compare(data.password, Newuser.password))) {
+        const user = await admin.findOne({ email: data.email });
+        if (!user || !(await bcrypt.compare(data.password, user.password))) {
             throw new Error('Invalid credentials');
         }
+        return {
+            user: {
+              id: user.id,
+              name: user.firstname, // Include relevant user fields
+              email: user.email,
+              role: user.role,  // Add any other necessary fields
+            },
+          };
     };
 
 

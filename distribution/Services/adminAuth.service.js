@@ -30,10 +30,18 @@ class adminService {
     ;
     signIn(data) {
         return __awaiter(this, void 0, void 0, function* () {
-            const Newuser = yield admin_model_1.default.findOne({ email: data.email });
-            if (!Newuser || !(yield bcrypt_1.default.compare(data.password, Newuser.password))) {
+            const user = yield admin_model_1.default.findOne({ email: data.email });
+            if (!user || !(yield bcrypt_1.default.compare(data.password, user.password))) {
                 throw new Error('Invalid credentials');
             }
+            return {
+                user: {
+                    id: user.id,
+                    name: user.firstname, // Include relevant user fields
+                    email: user.email,
+                    role: user.role, // Add any other necessary fields
+                },
+            };
         });
     }
     ;

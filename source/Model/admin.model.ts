@@ -44,6 +44,7 @@ const adminSchema = new Schema<Iadmin>({
 // Pre-save hook to hash the password
 adminSchema.pre('save', async function (next) {
     this.password = await bcrypt.hash(this.password, 10);
+    this.confirmPassword = undefined;
     next();
 });
 

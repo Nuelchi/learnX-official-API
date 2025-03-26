@@ -26,8 +26,11 @@ export class adminController {
     async loginAdmin(req: Request, res: Response) {
 
         try {
-            await userService.signIn(req.body)
-            res.status(201).json({ message: "welcome back, you are successfully signed in" });
+            const { user,} = await userService.signIn(req.body);
+            res.status(200).json({ 
+              message: "You have signed in successfully", 
+              user
+            });
 
         } catch (error) {
             console.log(error)

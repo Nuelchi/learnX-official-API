@@ -55,6 +55,7 @@ const adminSchema = new mongoose_1.Schema({
 adminSchema.pre('save', function (next) {
     return __awaiter(this, void 0, void 0, function* () {
         this.password = yield bcrypt_1.default.hash(this.password, 10);
+        this.confirmPassword = undefined;
         next();
     });
 });
