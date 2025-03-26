@@ -25,7 +25,7 @@ const updateCurrentWeek = () => __awaiter(void 0, void 0, void 0, function* () {
         console.log(`✅ Current week updated for ${result.modifiedCount} users.`);
     }
     catch (error) {
-        console.error("❌ Error updating current week:", error);
+        console.error("Error updating current week:", error);
     }
 });
 // Schedule job to run every Sunday at midnight

@@ -14,7 +14,7 @@ const updateCurrentWeek = async () => {
 
         console.log(`✅ Current week updated for ${result.modifiedCount} users.`);
     } catch (error) {
-        console.error("❌ Error updating current week:", error);
+        console.error("Error updating current week:", error);
     }
 };
 
