@@ -8,9 +8,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.certificateController = void 0;
 const certificate_service_1 = require("../Services/certificate.service");
+const tracking_model_1 = __importDefault(require("../Model/tracking.model"));
+const course_model_1 = __importDefault(require("../Model/course.model"));
 const certService = new certificate_service_1.certificateService();
 class certificateController {
     // Add a new certificate
@@ -35,12 +40,22 @@ class certificateController {
                     res.status(401).json({ message: "Unauthorized. User not found." });
                     return;
                 }
-                const certificates = yield certService.getCertForUser(user.email);
-                if (certificates.length === 0) {
-                    res.status(404).json({ message: "No certificates found for this user." });
+                const email = user.email;
+                const userData = yield tracking_model_1.default.findOne({ email });
+                if (!userData) {
+                    res.status(404).json({ message: "Tracking error: user not tracked" });
                     return;
                 }
-                res.status(200).json({ message: "Certificates retrieved successfully.", certificates });
+                const track = userData.track;
+                const totalCourse = yield course_model_1.default.countDocuments({ category: track });
+                const RemCourse = Number(userData.currentWeek);
+                const RemainingCourse = Math.max(totalCourse - RemCourse, 0);
+                const certificates = yield certService.getCertForUser(user.email);
+                if (certificates.length === 0) {
+                    res.status(404).json({ message: "No certificates found for this user.", totalCourse, RemainingCourse });
+                    return;
+                }
+                res.status(200).json({ message: "Certificates retrieved successfully.", certificates, totalCourse, RemainingCourse });
             }
             catch (error) {
                 res.status(500).json({ message: error.message });

@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { certificateService } from "../Services/certificate.service";
-import certificateModel from "../Model/certificate.model";
+import trackingModel from "../Model/tracking.model";
+import courseModel from "../Model/course.model";
 
 const certService = new certificateService();
 
@@ -25,15 +26,25 @@ export class certificateController {
                 res.status(401).json({ message: "Unauthorized. User not found." });
                 return;
             }
+            const email = user.email
+            const userData = await trackingModel.findOne({email});
+            if (!userData){
+                res.status(404).json({ message: "Tracking error: user not tracked" });
+                return;
+            }
+            const track = userData.track
+            const totalCourse = await courseModel.countDocuments({category: track})
+            const RemCourse: number = Number(userData.currentWeek);
+            const RemainingCourse = Math.max(totalCourse - RemCourse, 0)
 
             const certificates = await certService.getCertForUser(user.email);
 
             if (certificates.length === 0) {
-                res.status(404).json({ message: "No certificates found for this user." });
+                res.status(404).json({ message: "No certificates found for this user.", totalCourse, RemainingCourse });
                 return;
             }
 
-            res.status(200).json({ message: "Certificates retrieved successfully.", certificates });
+            res.status(200).json({ message: "Certificates retrieved successfully.", certificates,totalCourse, RemainingCourse});
         } catch (error: any) {
             res.status(500).json({ message: error.message });
         }
