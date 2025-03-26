@@ -23,8 +23,12 @@ export class UserController {
   //sign in
   async signIn(req: Request, res: Response) {
     try {
-      const token = await userService.signIn(req.body);
-      res.status(200).json({ message: "you have signed in succesfully", token });
+        const { user, token } = await userService.signIn(req.body);
+      res.status(200).json({ 
+        message: "You have signed in successfully", 
+        user, 
+        token 
+      });
     } catch (error: any) {
       res.status(401).json({ error: error.message });
     }

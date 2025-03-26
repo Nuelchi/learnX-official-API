@@ -33,7 +33,15 @@ export class UserService {
 
     const token = jwt.sign({ id: user.id }, secret, { expiresIn: expiry });
 
-    return token;
+    return {
+      user: {
+        id: user.id,
+        name: user.firstname, // Include relevant user fields
+        email: user.email,
+        role: user.role,  // Add any other necessary fields
+      },
+      token,
+    };
   }
 
 
