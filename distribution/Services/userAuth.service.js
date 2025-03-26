@@ -44,7 +44,15 @@ class UserService {
                 throw new Error('JWT secret is not defined in environment variables.');
             }
             const token = jsonwebtoken_1.default.sign({ id: user.id }, secret, { expiresIn: expiry });
-            return token;
+            return {
+                user: {
+                    id: user.id,
+                    name: user.firstname, // Include relevant user fields
+                    email: user.email,
+                    role: user.role, // Add any other necessary fields
+                },
+                token,
+            };
         });
     }
     resetPassword(data) {

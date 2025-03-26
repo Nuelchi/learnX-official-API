@@ -35,8 +35,12 @@ class UserController {
     signIn(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const token = yield userService.signIn(req.body);
-                res.status(200).json({ message: "you have signed in succesfully", token });
+                const { user, token } = yield userService.signIn(req.body);
+                res.status(200).json({
+                    message: "You have signed in successfully",
+                    user,
+                    token,
+                });
             }
             catch (error) {
                 res.status(401).json({ error: error.message });

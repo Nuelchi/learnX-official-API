@@ -27,7 +27,7 @@ export class UserController {
       res.status(200).json({ 
         message: "You have signed in successfully", 
         user, 
-        token 
+        token,
       });
     } catch (error: any) {
       res.status(401).json({ error: error.message });
