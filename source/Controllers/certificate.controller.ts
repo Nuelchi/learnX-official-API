@@ -35,16 +35,16 @@ export class certificateController {
             const track = userData.track
             const totalCourse = await courseModel.countDocuments({category: track})
             const RemCourse: number = Number(userData.currentWeek);
-            const RemainingCourse = Math.max(totalCourse - RemCourse, 0)
+            // const RemainingCourse = Math.max(totalCourse - RemCourse, 0)
 
             const certificates = await certService.getCertForUser(user.email);
 
             if (certificates.length === 0) {
-                res.status(404).json({ message: "No certificates found for this user.", totalCourse, RemainingCourse });
+                res.status(404).json({ message: "No certificates found for this user.", totalCourse, RemCourse });
                 return;
             }
 
-            res.status(200).json({ message: "Certificates retrieved successfully.", certificates,totalCourse, RemainingCourse});
+            res.status(200).json({ message: "Certificates retrieved successfully.", certificates,totalCourse, RemCourse});
         } catch (error: any) {
             res.status(500).json({ message: error.message });
         }
