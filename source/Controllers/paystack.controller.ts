@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { paystackService } from "../Services/paystackService";
-import axios from "axios";
 import Payment from "../Model/payment.model";
 import User from "../Model/user.model";
 
@@ -10,47 +9,38 @@ export class InitializePayment {
         try {
             const user = (req as any).user;
             if (!user) {
-                res.status(401).json({ success: false, message: "Unauthorized. User not found." });
+                res.status(401).json({ message: "Unauthorized. User not found." });
                 return;
             }
 
-            const amount = 45000000; // Fixed amount
+            const amount = 450000; // Fixed amount
 
             // Initialize payment with Paystack
-            const response = await axios.post(
-                "https://api.paystack.co/transaction/initialize",
-                { email: user.email, amount },
-                {
-                    headers: {
-                        Authorization: `Bearer ${process.env.PAYSTACK_SECRET_KEY}`,
-                        "Content-Type": "application/json",
-                    },
-                }
-            );
+            const paymentResponse = await paystackService.initializePayment(user.email, amount);
 
-            const paymentData = response.data.data;
-
-            if (!paymentData || !paymentData.reference) {
-                res.status(500).json({ success: false, message: "Failed to initialize payment with Paystack." });
+            if (!paymentResponse.status || !paymentResponse.data || !paymentResponse.data.reference) {
+                res.status(500).json({ message: "Failed to initialize payment with Paystack." });
                 return;
             }
 
-            // Save payment in the database using Paystack's response status
-            await Payment.create({
+            const reference = paymentResponse.data.reference; // Get Paystack reference
+
+            // Save payment in the database using Paystack's reference
+            const newPayment = new Payment({
                 userId: user._id,
                 userEmail: user.email,
                 amount,
-                reference: paymentData.reference,
-                status: paymentData.status, // Use Paystack's status
+                reference, // Use Paystack reference
+                status: "pending",
             });
 
+            await newPayment.save();
 
-            res.status(200).json({ success: true, message: "Payment initialized", data: paymentData });
+            res.status(200).json(paymentResponse);
         } catch (error: any) {
-            res.status(500).json({ success: false, message: "Error initializing payment", error: error.message });
+            res.status(500).json({ message: error.message });
         }
     };
-
 
     // Verify Payment
     verifyPay = async (req: Request, res: Response): Promise<void> => {
@@ -62,12 +52,6 @@ export class InitializePayment {
                 res.status(401).json({ message: "Unauthorized. User not found." });
                 return;
             }
-            const subscriptionUpdated = await this.updateSubscription(user.email);
-
-            if (!subscriptionUpdated) {
-                res.status(500).json({ message: "Payment verified but subscription update failed" });
-                return;
-            }
 
             if (!reference) {
                 res.status(400).json({ message: "Reference is required" });
@@ -77,8 +61,6 @@ export class InitializePayment {
             // Verify payment via Paystack
             const verificationResponse: any = await paystackService.verifyPayment(reference);
 
-            console.log("Paystack Verification Response:", verificationResponse);
-
             if (!verificationResponse.status || verificationResponse.data.status !== "success") {
                 res.status(400).json({ message: "Payment verification failed", details: verificationResponse });
                 return;
@@ -87,8 +69,8 @@ export class InitializePayment {
             // Update payment status in DB to "paid"
             const updatedPayment = await Payment.findOneAndUpdate(
                 { reference },
-                { status: "paid" },
-                { new: true }
+                { status: "paid" }, // Update status to 'paid'
+                { new: true } // Return the updated document
             );
 
             if (!updatedPayment) {
@@ -96,41 +78,12 @@ export class InitializePayment {
                 return;
             }
 
-            // Call the function to update subscription status
+            // Mark the user as subscribed
+            await User.findByIdAndUpdate(user._id, { isSubscribed: true });
 
-            res.status(200).json({
-                message: "Payment verified, status updated, and user subscribed",
-                payment: updatedPayment
-            });
-
+            res.status(200).json({ message: "Payment verified and status updated to paid", verificationResponse });
         } catch (error: any) {
-            console.error("Error in verifyPay:", error);
             res.status(500).json({ message: error.message });
         }
     };
-
-    // Update user subscription status
-    updateSubscription = async (email: string): Promise<boolean> => {
-        try {
-             console.log("Updating subscription for email:", email);
-
-            const updatedUser = await User.findOneAndUpdate(
-                { email },
-                { $set: { isSubscribed: true } },
-                { new: true }
-            );
-
-            if (!updatedUser) {
-                console.error("User not found, subscription not updated.");
-                return false;
-            }
-
-             console.log("User subscription updated successfully:", updatedUser);
-            return true;
-        } catch (error: any) {
-            console.error("Error updating user subscription:", error.message);
-            return false;
-        }
-    };
-    
 }

@@ -22,7 +22,7 @@ export const paystackService = {
                     email,
                     amount: amount * 100, // Convert Naira to Kobo
                     currency: "NGN",
-                    callback_url: `${FRONTEND_URL}/payment/payment-success`, // Redirect URL after payment
+                    callback_url: `${FRONTEND_URL}/payment-success`, // Redirect URL after payment
                 },
                 {
                     headers: { Authorization: `Bearer ${PAYSTACK_SECRET_KEY}` },
