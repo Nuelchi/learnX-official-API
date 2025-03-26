@@ -1,64 +1,22 @@
 import cron from "node-cron";
-import TrackingModel from "./Model/tracking.model"; // Ensure correct path
-import mongoose from "mongoose";
+import Tracking from "./Model/tracking.model"; // Import your tracking model
 
-/**
- * ✅ Update currentWeek every Sunday at midnight
- */
-const updateCurrentWeek = async () => {
+// Update completed hours every hour
+cron.schedule("0 * * * *", async () => {
     try {
-        console.log("⏳ Running scheduled job to update currentWeek...");
-
-        // Increment `currentWeek` for all users
-        const result = await TrackingModel.updateMany({}, { $inc: { currentWeek: 1 } });
-
-        console.log(`✅ Current week updated for ${result.modifiedCount} users.`);
+        await Tracking.updateMany({}, { $inc: { completedHours: 1 } });
+        console.log(" Completed hours updated for all students!");
     } catch (error) {
-        console.error("Error updating current week:", error);
+        console.error(" Error updating completed hours:", error);
     }
-};
-
-// Schedule job to run every Sunday at midnight
-cron.schedule("0 0 * * 0", () => {
-    updateCurrentWeek();
 });
 
-
-/**
- * ✅ Update completedHours every hour
- */
-const updateCompletedHours = async () => {
+// Increment current week every Sunday at midnight
+cron.schedule("0 0 * * 0", async () => {
     try {
-        console.log("⏳ Running scheduled job to update user completed hours...");
-
-        const updates = await TrackingModel.updateMany(
-            { enrollmentDate: { $exists: true, $ne: null } }, // Ensure enrollmentDate exists
-            [
-                {
-                    $set: {
-                        completedHours: {
-                            $divide: [
-                                { $subtract: [new Date(), "$enrollmentDate"] },
-                                1000 * 60 * 60 // Convert milliseconds to hours
-                            ]
-                        }
-                    }
-                }
-            ]
-        );
-
-        console.log(`✅ Completed Hours Updated for ${updates.modifiedCount} users.`);
+        await Tracking.updateMany({}, { $inc: { currentWeek: 1 } });
+        console.log("✅ Current week incremented for all students!");
     } catch (error) {
-        console.error("❌ Failed to update completedHours:", error);
+        console.error(" Error updating current week:", error);
     }
-};
-
-// Schedule job to run every hour
-cron.schedule("0 * * * *", () => {
-    updateCompletedHours();
 });
-
-/**
- * ✅ Debugging: Ensure cron jobs are scheduled
- */
-console.log("✅ Cron jobs for `currentWeek` and `completedHours` have been scheduled.");
