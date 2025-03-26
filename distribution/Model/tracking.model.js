@@ -71,5 +71,9 @@ const trackingSchema = new mongoose_1.Schema({
         type: Number,
         default: 1,
     },
+    completedHours: {
+        type: Number,
+        default: 0
+    }
 });
 exports.default = mongoose_1.default.model("tracking", trackingSchema);

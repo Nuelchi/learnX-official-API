@@ -9,5 +9,6 @@ export interface Itracking {
     track: String;
     enrollmentDate :Number;
     currentWeek: Number;
+    completedHours: Number;
     
 }

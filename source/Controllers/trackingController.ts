@@ -31,4 +31,26 @@ export class TrackingController {
         } catch (error: any) {
             res.status(500).json({ message: error.message });
         }
+    }
+
+    //track for a user
+    async getUserTrack(req: Request, res: Response): Promise<void> {
+        try {
+            const user = (req as any).user;
+            if (!user) {
+                res.status(401).json({ message: "Unauthorized. User not found." });
+                return;
+            }
+            const email = user.email;
+            const trackData = await trackingService.getUserTracking( email )
+
+            if (!trackData) {
+                res.status(404).json({ message: "No records found for user" });
+                return;
+            }
+
+            res.status(200).json(trackData);
+        } catch (error: any) {
+            res.status(500).json({ message: error.message });
+        }
     }};

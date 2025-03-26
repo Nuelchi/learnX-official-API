@@ -43,6 +43,7 @@ class CourseEnrollService {
                     track: track,
                     enrollmentDate: new Date(),
                     currentWeek: 1,
+                    completedHours: 0,
                 });
                 yield newTracking.save();
                 return { message: "Enrollment successful", tracking: newTracking };

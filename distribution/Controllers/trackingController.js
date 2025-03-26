@@ -43,6 +43,28 @@ class TrackingController {
             }
         });
     }
+    //track for a user
+    getUserTrack(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const user = req.user;
+                if (!user) {
+                    res.status(401).json({ message: "Unauthorized. User not found." });
+                    return;
+                }
+                const email = user.email;
+                const trackData = yield trackingService.getUserTracking(email);
+                if (!trackData) {
+                    res.status(404).json({ message: "No records found for user" });
+                    return;
+                }
+                res.status(200).json(trackData);
+            }
+            catch (error) {
+                res.status(500).json({ message: error.message });
+            }
+        });
+    }
 }
 exports.TrackingController = TrackingController;
 ;

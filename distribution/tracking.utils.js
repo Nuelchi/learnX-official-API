@@ -28,3 +28,31 @@ node_cron_1.default.schedule("0 0 * * 0", () => {
     console.log("⏳ Running scheduled job to update currentWeek...");
     updateCurrentWeek();
 });
+//update completed hours
+const updateCompletedHours = () => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const now = new Date();
+        // Update the completedHours for each enrolled student
+        const updates = yield tracking_model_1.default.updateMany({}, [
+            {
+                $set: {
+                    completedHours: {
+                        $divide: [
+                            { $subtract: [now, "$enrollmentDate"] },
+                            1000 * 60 * 60 // Convert milliseconds to hours
+                        ]
+                    }
+                }
+            }
+        ]);
+        console.log("⏳ User enrollment hours updated successfully!");
+    }
+    catch (error) {
+        console.error(" Failed to update completedHours:", error);
+    }
+});
+// Schedule job to run every hour
+node_cron_1.default.schedule("0 * * * *", () => {
+    console.log("🔄 Running scheduled job to update user completed hours...");
+    updateCompletedHours();
+});

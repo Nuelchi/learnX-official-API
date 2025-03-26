@@ -38,6 +38,10 @@ const trackingSchema = new Schema<Itracking>({
         type: Number,
         default: 1,
     },
+    completedHours: {
+        type: Number,
+        default: 0
+    }
 
 });
 

@@ -17,14 +17,14 @@ export class TrackingService {
         return await trackingModel.find(query);
     }
 
-        //  Get tracking details for a specific user by email
-    // async getUserTracking(email: string) {
-    //     const userTracking = await trackingModel.findOne({ email });
+        // Get tracking details for a specific user by email
+    async getUserTracking(email: string) {
+        const userTracking = await trackingModel.findOne({ email });
 
-    //     if (!userTracking) {
-    //         throw new Error("Tracking details not found for this user.");
-    //     }
+        if (!userTracking) {
+            throw new Error("Tracking details not found for this user.");
+        }
 
-    //     return userTracking;
-    // }
+        return userTracking;
+    }
 }
