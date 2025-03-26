@@ -48,14 +48,14 @@ class certificateController {
                 }
                 const track = userData.track;
                 const totalCourse = yield course_model_1.default.countDocuments({ category: track });
-                const RemCourse = Number(userData.currentWeek);
+                const CompletedCourse = Number(userData.currentWeek);
                 // const RemainingCourse = Math.max(totalCourse - RemCourse, 0)
                 const certificates = yield certService.getCertForUser(user.email);
                 if (certificates.length === 0) {
-                    res.status(404).json({ message: "No certificates found for this user.", totalCourse, RemCourse });
+                    res.status(404).json({ message: "No certificates found for this user.", totalCourse, CompletedCourse });
                     return;
                 }
-                res.status(200).json({ message: "Certificates retrieved successfully.", certificates, totalCourse, RemCourse });
+                res.status(200).json({ message: "Certificates retrieved successfully.", certificates, totalCourse, CompletedCourse });
             }
             catch (error) {
                 res.status(500).json({ message: error.message });
