@@ -7,6 +7,6 @@ export interface IcourseEnroll {
     monthofbirth: Number;
     gender: string;
     phone: string;
-    track: string;
+    track: "backend" | "frontend" | "product-design" | "data-analysis" | "artificial-intelligence";
     address: string;
 }

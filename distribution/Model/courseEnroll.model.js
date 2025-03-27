@@ -53,7 +53,7 @@ const courseEnrollSchema = new mongoose_1.Schema({
     },
     address: {
         type: String,
-        required: [true, 'please enter course track'],
+        required: [true, 'please enter your address'],
         lowercase: true
     },
 });

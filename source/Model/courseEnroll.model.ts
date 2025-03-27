@@ -51,7 +51,7 @@ const courseEnrollSchema = new Schema<IcourseEnroll>({
     },
     address: {
         type: String,
-        required: [true, 'please enter course track'],
+        required: [true, 'please enter your address'],
         lowercase: true
     },
 });
