@@ -29,8 +29,7 @@ app.use(express_1.default.json());
 const allowedOrigins = [
     "https://learnxuser.netlify.app",
     "https://learnxadmin.netlify.app",
-    "https://learnx-official-api.onrender.com",
-    "http://localhost:9000"
+    "https://learnx-official-api.onrender.com"
 ];
 app.use((0, cors_1.default)({
     origin: function (origin, callback) {
