@@ -29,13 +29,23 @@ import trackingRoutes from "./Routes/trackingRoutes"
 app.use(express.urlencoded({extended:true}));
 app.use(express.json());
 
+const allowedOrigins = [
+    "https://learnxuser.netlify.app",
+    "https://learnxadmin.netlify.app"
+];
+
 app.use(cors({
-    origin: "*", // Allow both specific frontend and any origin
+    origin: function (origin, callback) {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error("Not allowed by CORS"));
+        }
+    },
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true
 }));
-
 
 
 //ROUTES

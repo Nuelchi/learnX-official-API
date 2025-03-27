@@ -26,8 +26,19 @@ const trackingRoutes_1 = __importDefault(require("./Routes/trackingRoutes"));
 //MIDDLEWARES
 app.use(express_1.default.urlencoded({ extended: true }));
 app.use(express_1.default.json());
+const allowedOrigins = [
+    "https://learnxuser.netlify.app",
+    "https://learnxadmin.netlify.app"
+];
 app.use((0, cors_1.default)({
-    origin: "*", // Allow both specific frontend and any origin
+    origin: function (origin, callback) {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        }
+        else {
+            callback(new Error("Not allowed by CORS"));
+        }
+    },
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true
