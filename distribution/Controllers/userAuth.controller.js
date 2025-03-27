@@ -19,7 +19,7 @@ class UserController {
             const userData = req.body;
             const { firstname, lastname, email, password } = userData;
             if (!firstname || !lastname || !email || !password)
-                throw new Error("all fiel~d required");
+                throw new Error("all field required");
             try {
                 const newUser = yield userService.signUp(userData);
                 res.status(201).json({ message: "user registered successfully", user: newUser });

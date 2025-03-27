@@ -31,7 +31,10 @@ app.use(express.json());
 
 const allowedOrigins = [
     "https://learnxuser.netlify.app",
-    "https://learnxadmin.netlify.app"
+    "https://learnxadmin.netlify.app",
+    "https://learnx-official-api.onrender.com",
+    "http://localhost:9000"
+
 ];
 
 app.use(cors({
