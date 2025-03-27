@@ -52,22 +52,18 @@ const trackingSchema = new mongoose_1.Schema({
     firstname: {
         type: String,
         required: true,
-        unique: true,
     },
     lastname: {
         type: String,
         required: true,
-        unique: true,
     },
     email: {
         type: String,
         required: true,
-        unique: true,
     },
     phone: {
         type: String,
         required: true,
-        unique: true,
     },
     track: {
         type: String,
@@ -88,26 +84,30 @@ const trackingSchema = new mongoose_1.Schema({
 const Tracking = mongoose_1.default.model("tracking", trackingSchema);
 // Function to update currentWeek every Sunday
 const updateCurrentWeek = () => __awaiter(void 0, void 0, void 0, function* () {
-    yield Tracking.updateMany({}, { $inc: { currentWeek: 1 } });
-    console.log("Updated current week for all enrolled users.");
+    const count = yield Tracking.countDocuments();
+    if (count > 0) {
+        yield Tracking.updateMany({}, { $inc: { currentWeek: 1 } });
+        console.log("Updated current week for all enrolled users.");
+    }
+    else {
+        console.log("No tracking records found.");
+    }
 });
-// Schedule the update to run every Sunday at midnight
-const scheduleUpdateCurrentWeek = () => {
-    const now = new Date();
-    const nextSunday = new Date(now);
-    nextSunday.setDate(now.getDate() + ((7 - now.getDay()) % 7)); // Move to next Sunday
-    nextSunday.setHours(0, 0, 0, 0); // Set to midnight
-    const timeUntilNextSunday = nextSunday.getTime() - now.getTime(); // Time difference
-    setTimeout(() => __awaiter(void 0, void 0, void 0, function* () {
-        yield updateCurrentWeek();
-        console.log("Updated current week on Sunday at midnight.");
-        scheduleUpdateCurrentWeek(); // Reschedule after execution
-    }), timeUntilNextSunday);
-};
+// Function to update completed hours daily
 const updateCompletedHours = () => __awaiter(void 0, void 0, void 0, function* () {
-    yield Tracking.updateMany({}, { $inc: { completedHours: 1 } });
-    console.log("Updated completed hours for all enrollled Users");
+    const count = yield Tracking.countDocuments();
+    if (count > 0) {
+        yield Tracking.updateMany({}, { $inc: { completedHours: 1 } });
+        console.log("Updated completed hours for all enrolled users.");
+    }
+    else {
+        console.log("No tracking records found.");
+    }
 });
-setInterval(updateCompletedHours, 24 * 60 * 60 * 1000);
-scheduleUpdateCurrentWeek();
+// Run updates immediately on startup
+setImmediate(updateCompletedHours);
+setImmediate(updateCurrentWeek);
+// Run updates at a set interval
+setInterval(updateCompletedHours, 24 * 60 * 60 * 1000); // Every 24 hours
+setInterval(updateCurrentWeek, 7 * 24 * 60 * 60 * 1000); // Every 7 days
 exports.default = Tracking;
