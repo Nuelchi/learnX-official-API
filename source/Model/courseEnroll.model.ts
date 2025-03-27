@@ -19,14 +19,17 @@ const courseEnrollSchema = new Schema<IcourseEnroll>({
     },
     yearofbirth: {
         type: Date,
+        unique: false,
         required: true
     },
     dayofbirth: {
         type: Date,
+        unique: false,
         required: true
     },
     monthofbirth: {
         type: Date,
+        unique: false,
         required: true
     },
     gender: {
