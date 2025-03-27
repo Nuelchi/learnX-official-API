@@ -36,6 +36,7 @@ const courseEnrollSchema = new mongoose_1.Schema({
     },
     track: {
         type: String,
+        enum: ['backend', 'frontend', 'product-design', 'data-analysis', "artificial-intelligence"],
         required: true,
         unique: [true, 'Please enter your track']
     },
