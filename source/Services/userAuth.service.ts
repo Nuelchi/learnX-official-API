@@ -36,7 +36,8 @@ export class UserService {
     return {
       user: {
         id: user.id,
-        name: user.firstname, // Include relevant user fields
+        firstname: user.firstname, // Include relevant user fields
+        lastname: user.lastname,
         email: user.email,
         role: user.role,  // Add any other necessary fields
       },

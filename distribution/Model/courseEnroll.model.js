@@ -22,17 +22,17 @@ const courseEnrollSchema = new mongoose_1.Schema({
         validate: [validator_1.default.isEmail, 'Please enter a valid email address'],
     },
     yearofbirth: {
-        type: Date,
+        type: Number,
         unique: false,
         required: true
     },
     dayofbirth: {
-        type: Date,
+        type: Number,
         unique: false,
         required: true
     },
     monthofbirth: {
-        type: Date,
+        type: Number,
         unique: false,
         required: true
     },
