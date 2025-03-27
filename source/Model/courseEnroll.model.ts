@@ -13,7 +13,7 @@ const courseEnrollSchema = new Schema<IcourseEnroll>({
     },
     email: {
         type: String,
-        required: true,
+        required: false,
         unique: true,
         validate: [validator.isEmail, 'Please enter a valid email address'],
     },

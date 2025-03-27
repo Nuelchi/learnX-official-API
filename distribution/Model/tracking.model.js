@@ -86,21 +86,28 @@ const trackingSchema = new mongoose_1.Schema({
     }
 });
 const Tracking = mongoose_1.default.model("tracking", trackingSchema);
-// const scheduleUpdateCurrentWeek = () => {
-//     const now = new Date();
-//     const nextSunday = new Date(now);
-//     nextSunday.setDate(now.getDate() + ((7 - now.getDay()) % 7)); // Move to next Sunday
-//     nextSunday.setHours(0, 0, 0, 0); // Set to midnight
-//     const timeUntilNextSunday = nextSunday.getTime() - now.getTime(); // Time difference
-//     setTimeout(async () => {
-//         await updateCurrentWeek();
-//         console.log("Updated current week on Sunday at midnight.");
-//         scheduleUpdateCurrentWeek(); // Reschedule after execution
-//     }, timeUntilNextSunday);
-// };
+// Function to update currentWeek every Sunday
+const updateCurrentWeek = () => __awaiter(void 0, void 0, void 0, function* () {
+    yield Tracking.updateMany({}, { $inc: { currentWeek: 1 } });
+    console.log("Updated current week for all enrolled users.");
+});
+// Schedule the update to run every Sunday at midnight
+const scheduleUpdateCurrentWeek = () => {
+    const now = new Date();
+    const nextSunday = new Date(now);
+    nextSunday.setDate(now.getDate() + ((7 - now.getDay()) % 7)); // Move to next Sunday
+    nextSunday.setHours(0, 0, 0, 0); // Set to midnight
+    const timeUntilNextSunday = nextSunday.getTime() - now.getTime(); // Time difference
+    setTimeout(() => __awaiter(void 0, void 0, void 0, function* () {
+        yield updateCurrentWeek();
+        console.log("Updated current week on Sunday at midnight.");
+        scheduleUpdateCurrentWeek(); // Reschedule after execution
+    }), timeUntilNextSunday);
+};
 const updateCompletedHours = () => __awaiter(void 0, void 0, void 0, function* () {
     yield Tracking.updateMany({}, { $inc: { completedHours: 1 } });
     console.log("Updated completed hours for all enrollled Users");
 });
 setInterval(updateCompletedHours, 24 * 60 * 60 * 1000);
+scheduleUpdateCurrentWeek();
 exports.default = Tracking;

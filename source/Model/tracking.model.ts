@@ -47,20 +47,28 @@ const trackingSchema = new Schema<Itracking>({
 
 const Tracking =  mongoose.model("tracking", trackingSchema);
 
-// const scheduleUpdateCurrentWeek = () => {
-//     const now = new Date();
-//     const nextSunday = new Date(now);
-//     nextSunday.setDate(now.getDate() + ((7 - now.getDay()) % 7)); // Move to next Sunday
-//     nextSunday.setHours(0, 0, 0, 0); // Set to midnight
+// Function to update currentWeek every Sunday
+const updateCurrentWeek = async () => {
+    await Tracking.updateMany({}, { $inc: { currentWeek: 1 } });
+    console.log("Updated current week for all enrolled users.");
+};
 
-//     const timeUntilNextSunday = nextSunday.getTime() - now.getTime(); // Time difference
+// Schedule the update to run every Sunday at midnight
+const scheduleUpdateCurrentWeek = () => {
+    const now = new Date();
+    const nextSunday = new Date(now);
+    nextSunday.setDate(now.getDate() + ((7 - now.getDay()) % 7)); // Move to next Sunday
+    nextSunday.setHours(0, 0, 0, 0); // Set to midnight
 
-//     setTimeout(async () => {
-//         await updateCurrentWeek();
-//         console.log("Updated current week on Sunday at midnight.");
-//         scheduleUpdateCurrentWeek(); // Reschedule after execution
-//     }, timeUntilNextSunday);
-// };
+    const timeUntilNextSunday = nextSunday.getTime() - now.getTime(); // Time difference
+
+    setTimeout(async () => {
+        await updateCurrentWeek();
+        console.log("Updated current week on Sunday at midnight.");
+        scheduleUpdateCurrentWeek(); // Reschedule after execution
+    }, timeUntilNextSunday);
+};
+
 
 const updateCompletedHours = async () => {
     await Tracking.updateMany ({}, {$inc: {completedHours: 1 }});
@@ -68,5 +76,6 @@ const updateCompletedHours = async () => {
 };
 
 setInterval(updateCompletedHours, 24 * 60 * 60 * 1000);
+scheduleUpdateCurrentWeek()
 
 export default Tracking;
