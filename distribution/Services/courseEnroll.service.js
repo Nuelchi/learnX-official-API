@@ -19,10 +19,10 @@ const user_model_1 = __importDefault(require("../Model/user.model"));
 class CourseEnrollService {
     static enrollUser(courseData) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { firstname, lastname, email, phone, track } = courseData;
+            const { firstname, lastname, phone, track } = courseData;
             try {
                 // Step 1: Check if the user exists
-                const user = yield user_model_1.default.findOne({ email });
+                const user = yield user_model_1.default.findOne({ firstname, lastname });
                 if (!user) {
                     throw new Error("User not found. Please sign up with the same email you used to register on learnx.");
                 }
@@ -38,7 +38,6 @@ class CourseEnrollService {
                     studentId: user._id,
                     firstname: firstname,
                     lastname: lastname,
-                    email: user.email,
                     phone: phone,
                     track: track,
                     enrollmentDate: new Date(),

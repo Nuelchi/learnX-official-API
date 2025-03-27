@@ -5,11 +5,11 @@ import UserModel from "../Model/user.model";
 
 export class CourseEnrollService {
     static async enrollUser(courseData: IcourseEnroll) {
-        const { firstname, lastname, email, phone, track} = courseData;
+        const { firstname, lastname, phone, track} = courseData;
 
         try {
             // Step 1: Check if the user exists
-            const user = await UserModel.findOne({ email });
+            const user = await UserModel.findOne({ firstname, lastname });
 
             if (!user) {
                 throw new Error("User not found. Please sign up with the same email you used to register on learnx.");
@@ -30,7 +30,6 @@ export class CourseEnrollService {
                 studentId: user._id,
                 firstname: firstname,
                 lastname: lastname,
-                email: user.email,
                 phone: phone,
                 track: track,
                 enrollmentDate: new Date(),
