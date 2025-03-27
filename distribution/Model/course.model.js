@@ -50,7 +50,7 @@ const courseSchema = new mongoose_1.Schema({
     },
     category: {
         type: String,
-        enum: ['backend', 'frontend', 'product design', 'data analysis', "artificial intelligence"],
+        enum: ['backend', 'frontend', 'product-design', 'data-analysis', "artificial-intelligence"],
         required: [true, 'please enter the category of the course'],
         lowercase: true
     },

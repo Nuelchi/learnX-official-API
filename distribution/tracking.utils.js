@@ -13,55 +13,24 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const node_cron_1 = __importDefault(require("node-cron"));
-const tracking_model_1 = __importDefault(require("./Model/tracking.model")); // Ensure correct path
-/**
- * ✅ Update currentWeek every Sunday at midnight
- */
-const updateCurrentWeek = () => __awaiter(void 0, void 0, void 0, function* () {
+const tracking_model_1 = __importDefault(require("./Model/tracking.model")); // Import your tracking model
+// Update completed hours every hour
+node_cron_1.default.schedule("0 * * * *", () => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        console.log("⏳ Running scheduled job to update currentWeek...");
-        // Increment `currentWeek` for all users
-        const result = yield tracking_model_1.default.updateMany({}, { $inc: { currentWeek: 1 } });
-        console.log(`✅ Current week updated for ${result.modifiedCount} users.`);
+        yield tracking_model_1.default.updateMany({}, { $inc: { completedHours: 1 } });
+        console.log(" Completed hours updated for all students!");
     }
     catch (error) {
-        console.error("Error updating current week:", error);
+        console.error(" Error updating completed hours:", error);
     }
-});
-// Schedule job to run every Sunday at midnight
-node_cron_1.default.schedule("0 0 * * 0", () => {
-    updateCurrentWeek();
-});
-/**
- * ✅ Update completedHours every hour
- */
-const updateCompletedHours = () => __awaiter(void 0, void 0, void 0, function* () {
+}));
+// Increment current week every Sunday at midnight
+node_cron_1.default.schedule("0 0 * * 0", () => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        console.log("⏳ Running scheduled job to update user completed hours...");
-        const updates = yield tracking_model_1.default.updateMany({ enrollmentDate: { $exists: true, $ne: null } }, // Ensure enrollmentDate exists
-        [
-            {
-                $set: {
-                    completedHours: {
-                        $divide: [
-                            { $subtract: [new Date(), "$enrollmentDate"] },
-                            1000 * 60 * 60 // Convert milliseconds to hours
-                        ]
-                    }
-                }
-            }
-        ]);
-        console.log(`✅ Completed Hours Updated for ${updates.modifiedCount} users.`);
+        yield tracking_model_1.default.updateMany({}, { $inc: { currentWeek: 1 } });
+        console.log("✅ Current week incremented for all students!");
     }
     catch (error) {
-        console.error("❌ Failed to update completedHours:", error);
+        console.error(" Error updating current week:", error);
     }
-});
-// Schedule job to run every hour
-node_cron_1.default.schedule("0 * * * *", () => {
-    updateCompletedHours();
-});
-/**
- * ✅ Debugging: Ensure cron jobs are scheduled
- */
-console.log("✅ Cron jobs for `currentWeek` and `completedHours` have been scheduled.");
+}));
