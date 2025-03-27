@@ -3,8 +3,8 @@ export interface IcourseEnroll {
     lastname: string;
     email: string;
     yearofbirth: Number;
-    monthofbirth: Number;
     dayofbirth: Number;
+    monthofbirth: Number;
     gender: string;
     phone: string;
     track: string;
