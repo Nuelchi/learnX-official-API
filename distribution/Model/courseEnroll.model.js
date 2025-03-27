@@ -43,13 +43,12 @@ const courseEnrollSchema = new mongoose_1.Schema({
     phone: {
         type: String,
         required: true,
-        unique: [true, 'Please enter a your phone number']
+        unique: [true, 'Please enter your phone number']
     },
     track: {
         type: String,
         enum: ['backend', 'frontend', 'product-design', 'data-analysis', "artificial-intelligence"],
         required: true,
-        unique: [true, 'Please enter your track']
     },
     address: {
         type: String,
