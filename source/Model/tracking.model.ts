@@ -45,4 +45,28 @@ const trackingSchema = new Schema<Itracking>({
 
 });
 
-export default mongoose.model("tracking", trackingSchema);
+const Tracking =  mongoose.model("tracking", trackingSchema);
+
+// const scheduleUpdateCurrentWeek = () => {
+//     const now = new Date();
+//     const nextSunday = new Date(now);
+//     nextSunday.setDate(now.getDate() + ((7 - now.getDay()) % 7)); // Move to next Sunday
+//     nextSunday.setHours(0, 0, 0, 0); // Set to midnight
+
+//     const timeUntilNextSunday = nextSunday.getTime() - now.getTime(); // Time difference
+
+//     setTimeout(async () => {
+//         await updateCurrentWeek();
+//         console.log("Updated current week on Sunday at midnight.");
+//         scheduleUpdateCurrentWeek(); // Reschedule after execution
+//     }, timeUntilNextSunday);
+// };
+
+const updateCompletedHours = async () => {
+    await Tracking.updateMany ({}, {$inc: {completedHours: 1 }});
+    console.log("Updated completed hours for all enrollled Users");
+};
+
+setInterval(updateCompletedHours, 24 * 60 * 60 * 1000);
+
+export default Tracking;

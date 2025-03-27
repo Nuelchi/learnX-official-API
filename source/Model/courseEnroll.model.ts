@@ -17,7 +17,15 @@ const courseEnrollSchema = new Schema<IcourseEnroll>({
         unique: true,
         validate: [validator.isEmail, 'Please enter a valid email address'],
     },
-    dateofbirth: {
+    yearofbirth: {
+        type: Date,
+        required: true
+    },
+    dayofbirth: {
+        type: Date,
+        required: true
+    },
+    monthofbirth: {
         type: Date,
         required: true
     },
