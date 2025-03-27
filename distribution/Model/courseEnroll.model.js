@@ -1,7 +1,11 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CourseEnrollModel = void 0;
 const mongoose_1 = require("mongoose");
+const validator_1 = __importDefault(require("validator"));
 const courseEnrollSchema = new mongoose_1.Schema({
     firstname: {
         type: String,
@@ -10,6 +14,12 @@ const courseEnrollSchema = new mongoose_1.Schema({
     lastname: {
         type: String,
         required: true
+    },
+    email: {
+        type: String,
+        required: true,
+        unique: true,
+        validate: [validator_1.default.isEmail, 'Please enter a valid email address'],
     },
     yearofbirth: {
         type: Date,
