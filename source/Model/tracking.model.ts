@@ -42,34 +42,47 @@ const trackingSchema = new Schema<Itracking>({
 
 const Tracking = mongoose.model("tracking", trackingSchema);
 
-// Function to update currentWeek every Sunday
+// Function to update currentWeek every Sunday at midnight
 const updateCurrentWeek = async () => {
-    const count = await Tracking.countDocuments();
-    if (count > 0) {
-        await Tracking.updateMany({}, { $inc: { currentWeek: 1 } });
-        console.log("Updated current week for all enrolled users.");
-    } else {
-        console.log("No tracking records found.");
+    const now = new Date();
+    if (now.getDay() === 0) { // Sunday
+        const count = await Tracking.countDocuments();
+        if (count > 0) {
+            await Tracking.updateMany({}, { $inc: { currentWeek: 1 } });
+            console.log(`Updated current week for all enrolled users on ${now}`);
+        } else {
+            console.log("No tracking records found.");
+        }
     }
 };
 
-// Function to update completed hours daily
+// Function to update completed hours 
 const updateCompletedHours = async () => {
     const count = await Tracking.countDocuments();
     if (count > 0) {
         await Tracking.updateMany({}, { $inc: { completedHours: 1 } });
-        console.log("Updated completed hours for all enrolled users.");
+        console.log(`Updated completed hours for all enrolled users on ${new Date()}`);
     } else {
         console.log("No tracking records found.");
     }
 };
 
-// Run updates immediately on startup
-setImmediate(updateCompletedHours);
-setImmediate(updateCurrentWeek);
+// Schedule function to run at midnight
+const scheduleMidnightTask = (task: Function, intervalInDays: number) => {
+    const now = new Date();
+    const nextRun = new Date();
+    nextRun.setDate(now.getDate() + intervalInDays);
+    nextRun.setHours(0, 0, 0, 0);
 
-// Run updates at a set interval
-setInterval(updateCompletedHours, 24 * 60 * 60 * 1000); // Every 24 hours
-setInterval(updateCurrentWeek, 7 * 24 * 60 * 60 * 1000); // Every 7 days
+    const timeUntilNextRun = nextRun.getTime() - now.getTime();
+    setTimeout(() => {
+        task(); // Run the task
+        setInterval(task, intervalInDays * 24 * 60 * 60 * 1000); // Run at the specified interval
+    }, timeUntilNextRun);
+};
+
+// Run update functions at midnight
+setInterval(updateCompletedHours, 60 * 60 * 1000); // Every 60 minutes
+scheduleMidnightTask(updateCurrentWeek, 7); // Every 7 days (on Sunday)
 
 export default Tracking;
