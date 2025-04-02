@@ -40,6 +40,7 @@ export class UserService {
         lastname: user.lastname,
         email: user.email,
         role: user.role,  // Add any other necessary fields
+        isPaid: user.isSubscribed,
       },
       token,
     };
