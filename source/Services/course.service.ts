@@ -27,11 +27,11 @@ export class CourseService {
         }
         return await Course.find({});
     }
-    async getTrackCourses(currentWeek: Number, track: String): Promise<Icourse[]> {
+    async getTrackCourses(week: Number, category: String): Promise<Icourse[]> {
         // Fetch all courses from week 1 to the current week
         return await courseModel.find({
-            week: { $lte: currentWeek }, // Get all courses where week is less than or equal to the current week
-            track
+            week: { $lte: week }, // Get all courses where week is less than or equal to the current week
+            category
         });
     }
 
