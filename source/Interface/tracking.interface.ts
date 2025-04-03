@@ -8,7 +8,7 @@ export interface Itracking {
     phone: string;
     track: String;
     enrollmentDate :Number;
-    currentWeek: Number;
+    currentWeek: number;
     completedHours: Number;
     
 }

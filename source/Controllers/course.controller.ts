@@ -33,6 +33,7 @@ export class CourseController {
     }
 
     // Get all courses
+
     async getCoursebyTracker(req: Request, res: Response): Promise<void> {
         try {
             const user = (req as any).user;
@@ -48,12 +49,6 @@ export class CourseController {
                 return;
             }
     
-            // Check if the user is subscribed
-            // if (!foundUser.isSubscribed && foundUser.role !== "admin") {
-            //     res.status(403).json({ message: "Access denied. Subscription required." });
-            //     return;
-            // }
-    
             // Find the user's tracking record
             const usertrack = await trackingModel.findOne({ studentId: user._id });
             if (!usertrack) {
@@ -62,17 +57,21 @@ export class CourseController {
             }
     
             const currentWeek = usertrack.currentWeek;
-            const track = usertrack.track;
-            
+            const track = usertrack.track.toLowerCase();
     
             // Fetch courses based on the user's track
-            const courses = await courseService.getTrackCourses(currentWeek, track);
-            if (!courses.length) {
+            const { allCourses, currentWeekVideos } = await CourseService.getTrackCourses(currentWeek, track);
+    
+            if (!allCourses.length) {
                 res.status(404).json({ message: "No courses found" });
                 return;
             }
     
-            res.status(200).json({ message: "Courses retrieved successfully", courses });
+            res.status(200).json({
+                message: "Courses retrieved successfully",
+                allCourses,
+                currentWeekVideos, // Only videos for the current week
+            });
         } catch (error: any) {
             console.error("Error fetching courses:", error.message);
             res.status(500).json({ message: "Server error. Please try again later." });

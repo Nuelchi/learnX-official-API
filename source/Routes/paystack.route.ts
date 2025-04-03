@@ -14,24 +14,6 @@ const FRONTEND_URL = process.env.FRONTEND_URL || "example.com";
 // Use middleware to attach user and generate reference
 router.post("/pay", authUser, paymentController.initPay);
 router.get("/verify/:reference", authUser,paymentController.verifyPay);
-router.get("/payment-success", (req, res) => {
-  res.send(`
-      <html>
-          <head>
-              <title>Payment Success</title>
-          </head>
-          <body style="text-align: center; font-family: Arial, sans-serif; padding: 20px;">
-              <h2>Payment was successful! 🎉</h2>
-              <p>Click the button below to return to the dashboard.</p>
-              <p>
-                  <a href="${FRONTEND_URL}" style="display: inline-block; padding: 10px 15px; background-color: #4CAF50; 
-                  color: white; text-decoration: none; border-radius: 5px; font-weight: bold;">
-                      Click here to return to the dashboard
-                  </a>
-              </p>
-          </body>
-      </html>
-  `);
-});
+
 
 export default router;

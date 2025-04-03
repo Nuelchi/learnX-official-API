@@ -14,7 +14,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CourseService = void 0;
 const course_model_1 = __importDefault(require("../Model/course.model"));
-const course_model_2 = __importDefault(require("../Model/course.model"));
 class CourseService {
     // Add a new course
     addCourse(courseData) {
@@ -46,11 +45,15 @@ class CourseService {
     }
     getTrackCourses(week, category) {
         return __awaiter(this, void 0, void 0, function* () {
-            // Fetch all courses from week 1 to the current week
-            return yield course_model_2.default.find({
-                week: { $lte: week }, // Get all courses where week is less than or equal to the current week
-                category
-            });
+            console.log(`Querying for courses with week <= ${week} and category = ${category}`);
+            const query = { week: { $lte: week }, category: category.toLowerCase() };
+            console.log("MongoDB Query:", JSON.stringify(query));
+            // Step 1: Fetch all courses up to the given week
+            const allCourses = yield course_model_1.default.find(query);
+            console.log("Filtered courses:", allCourses);
+            // Step 2: Filter courses to return only videos for the current week
+            const currentWeekVideos = allCourses.filter(course => course.week === week && course.type.toLowerCase() === "video");
+            return { allCourses, currentWeekVideos };
         });
     }
     // Update a course by ID

@@ -19,7 +19,7 @@ export class WeeklyTaskService {
         }
 
         // Ensure the user is not submitting a task beyond their progress
-        if (taskWeek > user.currentWeek) {
+        if (Number(taskWeek) > user.currentWeek) {
             throw new Error(
                 `You cannot submit a task for week ${taskWeek}. Your current progress is week ${user.currentWeek}.`
             );

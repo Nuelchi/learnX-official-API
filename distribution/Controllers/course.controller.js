@@ -16,7 +16,6 @@ exports.CourseController = void 0;
 const course_service_1 = __importDefault(require("../Services/course.service"));
 const tracking_model_1 = __importDefault(require("../Model/tracking.model"));
 const user_model_1 = __importDefault(require("../Model/user.model"));
-const course_service_2 = __importDefault(require("../Services/course.service"));
 class CourseController {
     // Add a new course
     addCourse(req, res) {
@@ -62,11 +61,6 @@ class CourseController {
                     res.status(404).json({ message: "User not found in the database." });
                     return;
                 }
-                // Check if the user is subscribed
-                // if (!foundUser.isSubscribed && foundUser.role !== "admin") {
-                //     res.status(403).json({ message: "Access denied. Subscription required." });
-                //     return;
-                // }
                 // Find the user's tracking record
                 const usertrack = yield tracking_model_1.default.findOne({ studentId: user._id });
                 if (!usertrack) {
@@ -74,14 +68,18 @@ class CourseController {
                     return;
                 }
                 const currentWeek = usertrack.currentWeek;
-                const track = usertrack.track;
+                const track = usertrack.track.toLowerCase();
                 // Fetch courses based on the user's track
-                const courses = yield course_service_2.default.getTrackCourses(currentWeek, track);
-                if (!courses.length) {
+                const { allCourses, currentWeekVideos } = yield course_service_1.default.getTrackCourses(currentWeek, track);
+                if (!allCourses.length) {
                     res.status(404).json({ message: "No courses found" });
                     return;
                 }
-                res.status(200).json({ message: "Courses retrieved successfully", courses });
+                res.status(200).json({
+                    message: "Courses retrieved successfully",
+                    allCourses,
+                    currentWeekVideos, // Only videos for the current week
+                });
             }
             catch (error) {
                 console.error("Error fetching courses:", error.message);

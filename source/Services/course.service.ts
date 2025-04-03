@@ -27,12 +27,21 @@ export class CourseService {
         }
         return await Course.find({});
     }
-    async getTrackCourses(week: Number, category: String): Promise<Icourse[]> {
-        // Fetch all courses from week 1 to the current week
-        return await courseModel.find({
-            week: { $lte: week }, // Get all courses where week is less than or equal to the current week
-            category
-        });
+
+    async getTrackCourses(week: number, category: string): Promise<{ allCourses: Icourse[], currentWeekVideos: Icourse[] }> {
+        console.log(`Querying for courses with week <= ${week} and category = ${category}`);
+    
+        const query = { week: { $lte: week }, category: category.toLowerCase() };
+        console.log("MongoDB Query:", JSON.stringify(query));
+    
+        // Step 1: Fetch all courses up to the given week
+        const allCourses = await Course.find(query);
+        console.log("Filtered courses:", allCourses);
+    
+        // Step 2: Filter courses to return only videos for the current week
+        const currentWeekVideos = allCourses.filter(course => course.week === week && course.type.toLowerCase() === "video");
+    
+        return { allCourses, currentWeekVideos };
     }
 
     // Update a course by ID
