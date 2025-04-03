@@ -86,4 +86,20 @@ export class InitializePayment {
             res.status(500).json({ message: error.message });
         }
     };
+        // Get User Payment Details
+        getAllPayment = async (req: Request, res: Response): Promise<void> => {
+            try {
+      
+                const payments = await Payment.find();
+    
+                if (!payments || payments.length === 0) {
+                    res.status(404).json({ message: "No payment records found." });
+                    return;
+                }
+    
+                res.status(200).json({ message: "User payment records retrieved successfully", payments });
+            } catch (error: any) {
+                res.status(500).json({ message: error.message });
+            }
+        };
 }

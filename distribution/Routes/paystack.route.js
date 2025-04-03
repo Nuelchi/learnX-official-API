@@ -15,4 +15,5 @@ const FRONTEND_URL = process.env.FRONTEND_URL || "example.com";
 // Use middleware to attach user and generate reference
 router.post("/pay", authUser, paymentController.initPay);
 router.get("/verify/:reference", authUser, paymentController.verifyPay);
+router.get("/getAllPayment", paymentController.getAllPayment);
 exports.default = router;
