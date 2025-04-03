@@ -77,6 +77,10 @@ class CourseController {
                 const track = usertrack.track;
                 // Fetch courses based on the user's track
                 const courses = yield course_service_2.default.getTrackCourses(currentWeek, track);
+                if (!courses.length) {
+                    res.status(404).json({ message: "No courses found" });
+                    return;
+                }
                 res.status(200).json({ message: "Courses retrieved successfully", courses });
             }
             catch (error) {
@@ -104,19 +108,22 @@ class CourseController {
         });
     }
     // Get all courses in a category (backend, frontend etc)
-    // async getCourseCategry(req: Request, res: Response): Promise<void> {
-    //     try {
-    //         const { category } = req.query;
-    //         const courses = await CourseService.getCourseCategory(category as string);
-    //         if (!courses.length) {
-    //             res.status(404).json({ message: "No courses found" });
-    //             return;
-    //         }
-    //         res.status(200).json(courses);
-    //     } catch (error: any) {
-    //         res.status(500).json({ message: error.message });
-    //     }
-    // }
+    getCourseCategory(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { category } = req.query;
+                const courses = yield course_service_1.default.getCourseCategory(category);
+                if (!courses.length) {
+                    res.status(404).json({ message: "No courses found" });
+                    return;
+                }
+                res.status(200).json(courses);
+            }
+            catch (error) {
+                res.status(500).json({ message: error.message });
+            }
+        });
+    }
     // Update a course by ID
     updateCourse(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
