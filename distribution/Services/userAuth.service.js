@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserService = void 0;
 const user_model_1 = __importDefault(require("../Model/user.model"));
 const user_model_2 = __importDefault(require("../Model/user.model"));
+const tracking_model_1 = __importDefault(require("../Model/tracking.model"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
@@ -33,10 +34,13 @@ class UserService {
     ;
     signIn(data) {
         return __awaiter(this, void 0, void 0, function* () {
+            var _a;
             const user = yield user_model_2.default.findOne({ email: data.email });
             if (!user || !(yield bcrypt_1.default.compare(data.password, user.password))) {
                 throw new Error('Invalid credentials');
             }
+            const usertrack = yield tracking_model_1.default.findOne({ studentId: user.id });
+            const track = ((_a = usertrack === null || usertrack === void 0 ? void 0 : usertrack.track) === null || _a === void 0 ? void 0 : _a.toLowerCase()) || "not-tracked";
             // Ensure SECRET_STRING is treated as a Secret type
             const secret = process.env.SECRET_STRING;
             const expiry = process.env.LOGIN_EXPIRY || '24h';
@@ -52,6 +56,7 @@ class UserService {
                     email: user.email,
                     role: user.role, // Add any other necessary fields
                     isPaid: user.isSubscribed,
+                    track
                 },
                 token,
             };

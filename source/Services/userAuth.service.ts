@@ -1,6 +1,7 @@
 import { Iuser } from "../Interface/user.interface";
 import user from "../Model/user.model";
 import userModel from "../Model/user.model";
+import trackingModel from "../Model/tracking.model";
 import bcrypt from "bcrypt"
 import dotenv from 'dotenv';
 import jwt, { Secret } from 'jsonwebtoken';
@@ -22,6 +23,8 @@ export class UserService {
     if (!user || !(await bcrypt.compare(data.password, user.password))) {
       throw new Error('Invalid credentials');
     }
+    const usertrack = await trackingModel.findOne({ studentId: user.id });
+    const track = usertrack?.track?.toLowerCase() || "not-tracked";
 
     // Ensure SECRET_STRING is treated as a Secret type
     const secret: Secret = process.env.SECRET_STRING!;
@@ -33,6 +36,7 @@ export class UserService {
 
     const token = jwt.sign({ id: user.id }, secret, { expiresIn: expiry });
 
+
     return {
       user: {
         id: user.id,
@@ -41,6 +45,7 @@ export class UserService {
         email: user.email,
         role: user.role,  // Add any other necessary fields
         isPaid: user.isSubscribed,
+        track
       },
       token,
     };
