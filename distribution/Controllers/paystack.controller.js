@@ -37,6 +37,8 @@ class InitializePayment {
                 // Save payment in the database using Paystack's reference
                 const newPayment = new payment_model_1.default({
                     userId: user._id,
+                    firstname: user.firstname,
+                    lastname: user.lastname,
                     userEmail: user.email,
                     amount,
                     reference, // Use Paystack reference

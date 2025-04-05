@@ -6,6 +6,14 @@ const PaymentSchema = new mongoose_1.Schema({
         type: mongoose_1.Schema.Types.ObjectId,
         ref: "User", required: true
     },
+    firstname: {
+        type: String,
+        required: [true, 'Please enter the first name of the mentor']
+    },
+    lastname: {
+        type: String,
+        required: [true, 'Please enter the last name of the mentor']
+    },
     userEmail: {
         type: String,
         required: true
