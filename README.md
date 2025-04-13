@@ -102,8 +102,8 @@ Server runs on `http://localhost:9000`
 
 
 ### Authentication
-| Method | Endpoint               | Description                       |
-|--------|------------------------|-----------------------------------|
+| Method | Endpoint                     | Description                       |
+|--------|------------------------------|-----------------------------------|
 | POST   | `/api/v1/user/signUp`        | Register a new user               |
 | POST   | `/api/v1/admin/signUp`       | Register a new admin              |
 | POST   | `/api/v1/user/login`         | Login user & get token            |
@@ -112,24 +112,24 @@ Server runs on `http://localhost:9000`
 
 
 ### Users
-| Method | Endpoint                     | Description                         |
-|--------|------------------------------|-------------------------------------|
+| Method | Endpoint                      | Description                         |
+|--------|-------------------------------|-------------------------------------|
 | GET    | `/api/v1/user/allUser`        | Get details of all users            |
-| GET    | `/api/v1/user/allUser/:id`    | Get details of a single user       |
-| PUT    | `/api/v1/user/update/:id`     | Update details of a single user    |
+| GET    | `/api/v1/user/allUser/:id`    | Get details of a single user        |
+| PUT    | `/api/v1/user/update/:id`     | Update details of a single user     |
 
 
 ### Mentors
-| Method | Endpoint                   | Description                            |
-|--------|----------------------------|----------------------------------------|
-| POST   | `/api/v1/mentor/addMentor`  | Register a new mentor for LearnX      |
-| GET    | `/api/v1/mentor/getMentor`  | Get details of all registered mentors |
+| Method | Endpoint                    | Description                            |
+|--------|-----------------------------|----------------------------------------|
+| POST   | `/api/v1/mentor/addMentor`  | Register a new mentor for LearnX       |
+| GET    | `/api/v1/mentor/getMentor`  | Get details of all registered mentors  |
 
 
 
 ### Courses
-| Method | Endpoint                      | Description                            |
-|--------|-------------------------------|----------------------------------------|
+| Method | Endpoint                       | Description                           |
+|--------|--------------------------------|---------------------------------------|
 | POST   | `/api/v1/course/addCourse`     | Add a new course (Admin)              |
 | GET    | `/api/v1/course/getCourses`    | Get all available courses             |
 | GET    | `/api/v1/course/:id`           | Get details of a single course        |
@@ -163,8 +163,8 @@ Server runs on `http://localhost:9000`
 ### Weekly Tasks
 | Method | Endpoint                        | Description                           |
 |--------|---------------------------------|---------------------------------------|
-| POST   | `/api/v1/task/submitTask`       | Submit a weekly task                 |
-| GET    | `/api/v1/task/gradeTask`        | Get all submitted tasks              |
+| POST   | `/api/v1/task/submitTask`       | Submit a weekly task                  |
+| GET    | `/api/v1/task/gradeTask`        | Get all submitted tasks               |
 
 
 ## 🚀 Future Improvements
